@@ -11,7 +11,7 @@
         $amount_alert = 0;
 
 
-        $img_thumb = "public/images/produto-sem-foto.jpg";
+        $img_thumb = asset("images/produto-sem-foto.jpg");
 
     @endphp
 
@@ -31,12 +31,12 @@
                 {
                     $img_thumb =  asset("images/$model/$id.jpg").'?'.mt_rand(111,999);
                 } else {
-                    $img_thumb = "public/images/produto-sem-foto.jpg";
+                    $img_thumb = asset("images/produto-sem-foto.jpg");
                 }
                 }
 
             @endphp
-            <h1 class="page-title">{{$action}} Produtox</h1>
+            <h1 class="page-title">{{$action}} Produto</h1>
 
             <form action="{{route("admin.$model.action.$action_model")}}" method="post" enctype="multipart/form-data">
                 @csrf
@@ -89,7 +89,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalLabel">Crop image</h5>
+                    <h5 class="modal-title" id="modalLabel">Cortar imagem</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
@@ -108,8 +108,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="crop">Crop</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="crop">Cortar</button>
                 </div>
             </div>
         </div>

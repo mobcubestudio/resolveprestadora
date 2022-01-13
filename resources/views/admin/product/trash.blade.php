@@ -6,7 +6,7 @@
 
 
 <div class="container">
-    <h1 class="pt-4 pb-4 text-center">Lista de Produtos</h1>
+    <h1 class="pt-4 pb-4 text-center">Produtos Excluídos</h1>
     <table class="table table-hover table-striped table-responsive">
         <thead class="bg-primary text-white">
             <tr >
@@ -17,6 +17,7 @@
             </tr>
         </thead>
         <tbody>
+
             @if(count($products) == 0)
                 <tr>
                     <td colspan="4" class="text-center">
@@ -38,19 +39,12 @@
                 <td>{{$product->name}}</td>
                 <td class="text-center @if($product->amount < $product->amount_alert) quantidade-baixa fw-bold @endif">{{$product->amount}}</th>
                 <td class="text-center">
-                    <a class="icon-action" style="margin-right: 1em" href="{{asset('admin/produtos/form')}}" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver Relatório de: {{$product->name}}">
+                    <a onclick="return confirm('Tem certeza que deseja restaurar o produto {{$product->name}}?')"
+                       class="icon-action" style="margin-right: 0em"
+                       href="{{route('admin.products.recycle',$product->id)}}"
+                       data-bs-toggle="tooltip" data-bs-placement="top" title="Restaurar: {{$product->name}}">
                         <svg class="bi" width="1.5em" height="1.5em" fill="currentColor">
-                            <use xlink:href="{{asset('images/actions/bootstrap-icons.svg')}}#file-earmark-text"></use>
-                        </svg>
-                    </a>
-                    <a class="icon-action" style="margin-right: 1em" href="{{route('admin.products.form.edit',['product'=>$product])}}" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar: {{$product->name}}">
-                        <svg class="bi" width="1.5em" height="1.5em" fill="currentColor">
-                            <use xlink:href="{{asset('images/actions/bootstrap-icons.svg')}}#pencil-square"></use>
-                        </svg>
-                    </a>
-                    <a onclick="return confirm('Tem certeza que deseja mover o produto {{$product->name}} para a lixeira?')" class="icon-action" style="margin-right: 0em" href="{{route('admin.products.destroy',$product)}}" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir: {{$product->name}}">
-                        <svg class="bi" width="1.5em" height="1.5em" fill="currentColor">
-                            <use xlink:href="{{asset('images/actions/bootstrap-icons.svg')}}#trash-fill"></use>
+                            <use xlink:href="{{asset('images/actions/bootstrap-icons.svg')}}#recycle"></use>
                         </svg>
                     </a>
 

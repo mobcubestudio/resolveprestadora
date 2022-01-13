@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Resolve - Gestão</title>
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('css/cropper.css')}}">
     @toastr_css
 </head>
 <body>
@@ -42,7 +43,7 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="#">Lixo</a></li>
+                        <li><a class="dropdown-item" href="{{asset('admin/produtos/lixo')}}">Lixo</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -61,6 +62,7 @@
 
 <script src="{{ asset('js/jquery.js') }}"></script>
 <script src="{{ asset('js/bootstrap.js') }}"></script>
+
 @toastr_js
 @toastr_render
 <script>
@@ -69,5 +71,6 @@
         return new bootstrap.Tooltip(tooltipTriggerEl)
     })
 </script>
+@yield('footer_js')
 </body>
 </html>

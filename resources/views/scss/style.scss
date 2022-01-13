@@ -25,6 +25,26 @@
 }
 
 
+//CROP IMAGES
+.img-crop{
+    display: block;
+    max-width: 100%;
+}
+.preview-crop{
+    overflow: hidden;
+    width: 160px;
+    height: 160px;
+    margin: 10px;
+    border: 1px solid red;
+}
+
+#img-thumbnail{
+    display: block;
+    width: 160px;
+    height: 160px;
+}
+/// END CROP IMAGES
+
 
 // Color system
 

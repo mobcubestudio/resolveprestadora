@@ -12,7 +12,9 @@ class Provider extends Model
     use SoftDeletes;
 
     protected $fillable = [
-      'name'
+        'cnpj',
+        'name',
+        'address'
     ];
 
     protected $dates = [

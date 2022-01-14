@@ -12,6 +12,7 @@ class Client extends Model
     use SoftDeletes;
 
     protected $fillable = [
+        'cnpj',
         'name',
         'address',
         'number',

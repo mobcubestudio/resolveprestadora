@@ -12,6 +12,7 @@ class Employee extends Model
     use SoftDeletes;
 
     protected $fillable = [
+        'role_id',
       'name',
         'registration',
       'cpf',
@@ -19,7 +20,8 @@ class Employee extends Model
       'address',
       'birth_date',
       'marital_status',
-      'email'
+      'email',
+        'phone'
     ];
 
     protected $dates = [

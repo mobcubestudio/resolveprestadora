@@ -20,6 +20,9 @@ class ProductController extends Controller
         ]);
     }
 
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function trash()
     {
         return view ('admin.product.trash',[
@@ -52,7 +55,7 @@ class ProductController extends Controller
 
         // Image Upload
         $this->imageUpload($request, $product->id);
-        return back();
+        return redirect()->route('admin.products');
     }
 
     /**
@@ -97,16 +100,6 @@ class ProductController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        return view('admin.product.show', ['id'=>$id]);
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -119,18 +112,6 @@ class ProductController extends Controller
         return view('admin.product.form',['product'=>$product]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function form(Request $request)
-    {
-
-
-    }
 
     /**
      * Update the specified resource in storage.
@@ -153,7 +134,7 @@ class ProductController extends Controller
 
         // Image Upload
         $this->imageUpload($request, $product->id);
-        return back();
+        return redirect()->route('admin.products');
     }
 
     /**
@@ -171,6 +152,10 @@ class ProductController extends Controller
     }
 
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function recycle($id)
     {
         //dd($id);

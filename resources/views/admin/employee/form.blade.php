@@ -2,14 +2,20 @@
 @section('content')
 
     @php
-        $model = 'products';
+        $model = 'employees';
         $action_model = 'create';
         $action = "Cadastrar";
         $id = null;
+        $role_id = null;
+        $registration = null;
         $name = null;
-        $amount = 0;
-        $amount_alert = 0;
-
+        $cpf = null;
+        $rg = null;
+        $address = null;
+        $birth_date = null;
+        $marital_status = 'S';
+        $email = null;
+        $phone = null;
 
         $img_thumb = asset("images/produto-sem-foto.jpg");
 
@@ -19,12 +25,19 @@
     <div class="row-cols-md-1 pb-5">
         <div class="container-md">
             @php
-              if(isset($product)){
+              if(isset($employee)){
                 $action_model = 'update';
-                $id = $product->id;
-                $name = $product->name;
-                $amount = $product->amount;
-                $amount_alert = $product->amount_alert;
+                $registration = $employee->registration;
+                $id = $employee->id;
+                $role_id = $employee->role_id;
+                $name = $employee->name;
+                $cpf = $employee->cpf;
+                $rg = $employee->rg;
+                $address = $employee->address;
+                $birth_date = date_format(date_create($employee->birth_date),'d/m/Y');
+                $marital_status = $employee->marital_status;
+                $email = $employee->email;
+                $phone = $employee->phone;
                 $action="Editar";
 
                 if(file_exists("images/$model/$id.jpg"))
@@ -36,7 +49,7 @@
                 }
 
             @endphp
-            <h1 class="page-title">{{$action}} Produto</h1>
+            <h1 class="page-title">{{$action}} Funcionário</h1>
 
             <form action="{{route("admin.$model.action.$action_model")}}" method="post" enctype="multipart/form-data">
                 @csrf
@@ -44,17 +57,70 @@
                     <input type="hidden" name="id" value="{{$id}}">
                 @endif
                 <div class="mb-3">
-                    <label for="name" class="form-label">Nome*</label>
+                    <label for="amount_alert" class="form-label">Função</label>
+                    <select id="role_id" name="role_id" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                        <option value="1">Segurança</option>
+                        <option @if($role_id==2) selected @endif value="2">Porteiro</option>
+                        <option value="3">Viúvo</option>
+                        <option value="4">Divorciado</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="amount" class="form-label">Matrícula*</label>
+                    <input type="text" data-mask="0000000" required name="registration" class="form-control" id="registration" aria-describedby="registrationHelp" value="{{$registration}}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="name" class="form-label">Nome Completo*</label>
                     <input type="text" required name="name" class="form-control" id="name" aria-describedby="nameHelp" value="{{$name}}">
                 </div>
+
                 <div class="mb-3">
-                    <label for="amount" class="form-label">Quantidade</label>
-                    <input type="text" required name="amount" class="form-control" id="amount" aria-describedby="amountHelp" value="{{$amount}}">
+                    <label for="amount_alert" class="form-label">CPF*</label>
+                    <input type="text" required name="cpf" class="form-control " data-mask="000.000.000-00" id="cpf" aria-describedby="cpfHelp" value="{{$cpf}}">
                 </div>
+
                 <div class="mb-3">
-                    <label for="amount_alert" class="form-label">Quantidade de alerta</label>
-                    <input type="text" required name="amount_alert" class="form-control" id="amount_alert" aria-describedby="amount_alertHelp" value="{{$amount_alert}}">
+                    <label for="amount_alert" class="form-label">RG*</label>
+                    <input type="text" required name="rg" class="form-control" id="rg" aria-describedby="rgHelp" value="{{$rg}}">
                 </div>
+
+                <div class="mb-3">
+                    <label for="amount_alert" class="form-label">Endereço*</label>
+                    <input type="text" required name="address" class="form-control" id="address" aria-describedby="addressHelp" value="{{$address}}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="amount_alert" class="form-label">Data de Nascimento*</label>
+                    <input type="text" required name="birth_date" data-mask="00/00/0000" class="form-control" id="birth_date" aria-describedby="birth_dateHelp" value="{{$birth_date}}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="amount_alert" class="form-label">Estado Civil</label>
+                    <select id="marital_status" name="marital_status" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                        <option @if($marital_status=='S') selected @endif  value="S">Solteiro</option>
+                        <option @if($marital_status=='C') selected @endif  value="C">Casado</option>
+                        <option @if($marital_status=='V') selected @endif  value="V">Viúvo</option>
+                        <option @if($marital_status=='D') selected @endif  value="D">Divorciado</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="amount_alert" class="form-label">E-mail*</label>
+                    <input type="email" required name="email" class="form-control" id="email" aria-describedby="emailHelp" value="{{$email}}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="amount_alert" class="form-label">Telefone</label>
+                    <input type="text" name="phone" class="form-control" data-mask="(00) 00000-0000" id="phone" aria-describedby="phoneHelp" value="{{$phone}}">
+                </div>
+
+
+
+
+
+
 
                 <div class="row">
                     <div class="col">
@@ -119,6 +185,7 @@
 
 
 @section('footer_js')
+    <script src="{{ asset('js/jquery.mask.min.js')}}"></script>
     <script src="{{ asset('js/cropper.js') }}"></script>
     <script>
 

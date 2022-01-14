@@ -52,12 +52,12 @@
                         Funcionários
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{{asset('admin/produtos')}}">Listar</a></li>
-                        <li><a class="dropdown-item" href="{{asset('admin/produtos/form')}}">Cadastrar</a></li>
+                        <li><a class="dropdown-item" href="{{asset('admin/funcionarios')}}">Listar</a></li>
+                        <li><a class="dropdown-item" href="{{asset('admin/funcionarios/form')}}">Cadastrar</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="{{asset('admin/produtos/lixo')}}">Lixeira</a></li>
+                        <li><a class="dropdown-item" href="{{asset('admin/funcionarios/lixo')}}">Lixeira</a></li>
                     </ul>
                 </li>
 

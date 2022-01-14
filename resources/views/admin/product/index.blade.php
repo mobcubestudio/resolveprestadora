@@ -1,7 +1,10 @@
 @extends('layouts.admin')
 @section('content')
 
-
+    @php
+        $model = 'products';
+        $var = 'product';
+    @endphp
 
 
 
@@ -31,8 +34,8 @@
 
 
                 <td class="text-center">
-                    @if(file_exists("images/products/$product->id.jpg"))
-                        <img class="img-thumbnail" src="{{asset("images/products/$product->id.jpg")}}" alt="{{$product->name}}">
+                    @if(file_exists("images/$model/$product->id.jpg"))
+                        <img class="img-thumbnail" src="{{asset("images/$model/$product->id.jpg")}}" alt="{{$product->name}}">
                     @endif
                 </td>
                 <td>{{$product->name}}</td>
@@ -43,12 +46,12 @@
                             <use xlink:href="{{asset('images/actions/bootstrap-icons.svg')}}#file-earmark-text"></use>
                         </svg>
                     </a>
-                    <a class="icon-action" style="margin-right: 1em" href="{{route('admin.products.form.edit',['product'=>$product])}}" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar: {{$product->name}}">
+                    <a class="icon-action" style="margin-right: 1em" href="{{route("admin.$model.form.edit",["$var"=>$product])}}" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar: {{$product->name}}">
                         <svg class="bi" width="1.5em" height="1.5em" fill="currentColor">
                             <use xlink:href="{{asset('images/actions/bootstrap-icons.svg')}}#pencil-square"></use>
                         </svg>
                     </a>
-                    <a onclick="return confirm('Tem certeza que deseja mover o produto {{$product->name}} para a lixeira?')" class="icon-action" style="margin-right: 0em" href="{{route('admin.products.destroy',$product)}}" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir: {{$product->name}}">
+                    <a onclick="return confirm('Tem certeza que deseja mover o produto {{$product->name}} para a lixeira?')" class="icon-action" style="margin-right: 0em" href="{{route("admin.$model.destroy",$product)}}" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir: {{$product->name}}">
                         <svg class="bi" width="1.5em" height="1.5em" fill="currentColor">
                             <use xlink:href="{{asset('images/actions/bootstrap-icons.svg')}}#trash-fill"></use>
                         </svg>

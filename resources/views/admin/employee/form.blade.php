@@ -58,11 +58,19 @@
                 @endif
                 <div class="mb-3">
                     <label for="amount_alert" class="form-label">Função</label>
-                    <select id="role_id" name="role_id" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-                        <option value="1">Segurança</option>
-                        <option @if($role_id==2) selected @endif value="2">Porteiro</option>
-                        <option value="3">Viúvo</option>
-                        <option value="4">Divorciado</option>
+                    <select required id="role_id" name="role_id" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                        <option value="">Selecione</option>
+                        <option @if($role_id==1) selected @endif value="1">Diretor</option>
+                        <option @if($role_id==2) selected @endif value="2">RH</option>
+                        <option @if($role_id==3) selected @endif value="3">Secretária</option>
+                        <option @if($role_id==4) selected @endif value="4">Fiscal de posto</option>
+                        <option @if($role_id==5) selected @endif value="5">Entregador</option>
+                        <option @if($role_id==6) selected @endif value="6">Porteiro</option>
+                        <option @if($role_id==7) selected @endif value="7">Jardineiro</option>
+                        <option @if($role_id==8) selected @endif value="8">Serviços gerais</option>
+                        <option @if($role_id==9) selected @endif value="9">Zelador</option>
+                        <option @if($role_id==10) selected @endif value="10">Vigia</option>
+                        <option @if($role_id==11) selected @endif value="11">Administrativo</option>
                     </select>
                 </div>
 

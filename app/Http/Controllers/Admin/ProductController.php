@@ -67,7 +67,7 @@ class ProductController extends Controller
         $input = $request->all();
 
 
-            if ($input['image-crop'] || $input['image-crop'] != '0') {
+            if ($input['image-crop']!=null) {
 
                 //dd($input['image-crop']);
                 $folderPath = public_path('images/products/');

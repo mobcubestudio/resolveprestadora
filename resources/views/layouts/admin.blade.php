@@ -63,15 +63,15 @@
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Visitantes
+                        Clientes
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{{asset('admin/produtos')}}">Listar</a></li>
-                        <li><a class="dropdown-item" href="{{asset('admin/produtos/form')}}">Cadastrar</a></li>
+                        <li><a class="dropdown-item" href="{{asset('admin/clientes')}}">Listar</a></li>
+                        <li><a class="dropdown-item" href="{{asset('admin/clientes/form')}}">Cadastrar</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="{{asset('admin/produtos/lixo')}}">Lixeira</a></li>
+                        <li><a class="dropdown-item" href="{{asset('admin/clientes/lixo')}}">Lixeira</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">

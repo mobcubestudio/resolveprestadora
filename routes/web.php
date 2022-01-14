@@ -42,4 +42,14 @@ Route::namespace('Admin')->group(function (){
     Route::get('/admin/funcionarios/recycle/{id}','\App\Http\Controllers\Admin\EmployeeController@recycle')->name('admin.employees.recycle');
     Route::get('/admin/funcionarios/destroy/{employee}','\App\Http\Controllers\Admin\EmployeeController@destroy')->name('admin.employees.destroy');
 
+
+    //CLIENTS
+    Route::get('/admin/clientes','\App\Http\Controllers\Admin\ClientController@index')->name('admin.clients');
+    Route::get('/admin/clientes/lixo','\App\Http\Controllers\Admin\ClientController@trash')->name('admin.clients.trash');
+    Route::get('/admin/clientes/form','\App\Http\Controllers\Admin\ClientController@create')->name('admin.clients.form.create');
+    Route::get('/admin/clientes/form/{client}','\App\Http\Controllers\Admin\ClientController@edit')->name('admin.clients.form.edit');
+    Route::post('/admin/clientes/create','\App\Http\Controllers\Admin\ClientController@store')->name('admin.clients.action.create');
+    Route::post('/admin/clientes/update','\App\Http\Controllers\Admin\ClientController@update')->name('admin.clients.action.update');
+    Route::get('/admin/clientes/recycle/{id}','\App\Http\Controllers\Admin\ClientController@recycle')->name('admin.clients.recycle');
+    Route::get('/admin/clientes/destroy/{data}','\App\Http\Controllers\Admin\ClientController@destroy')->name('admin.clients.destroy');
 });

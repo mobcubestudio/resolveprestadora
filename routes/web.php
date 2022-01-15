@@ -52,4 +52,14 @@ Route::namespace('Admin')->group(function (){
     Route::post('/admin/clientes/update','\App\Http\Controllers\Admin\ClientController@update')->name('admin.clients.action.update');
     Route::get('/admin/clientes/recycle/{id}','\App\Http\Controllers\Admin\ClientController@recycle')->name('admin.clients.recycle');
     Route::get('/admin/clientes/destroy/{data}','\App\Http\Controllers\Admin\ClientController@destroy')->name('admin.clients.destroy');
+
+    //PROVIDERS
+    Route::get('/admin/fornecedores','\App\Http\Controllers\Admin\ProviderController@index')->name('admin.providers');
+    Route::get('/admin/fornecedores/lixo','\App\Http\Controllers\Admin\ProviderController@trash')->name('admin.providers.trash');
+    Route::get('/admin/fornecedores/form','\App\Http\Controllers\Admin\ProviderController@create')->name('admin.providers.form.create');
+    Route::get('/admin/fornecedores/form/{provider}','\App\Http\Controllers\Admin\ProviderController@edit')->name('admin.providers.form.edit');
+    Route::post('/admin/fornecedores/create','\App\Http\Controllers\Admin\ProviderController@store')->name('admin.providers.action.create');
+    Route::post('/admin/fornecedores/update','\App\Http\Controllers\Admin\ProviderController@update')->name('admin.providers.action.update');
+    Route::get('/admin/fornecedores/recycle/{id}','\App\Http\Controllers\Admin\ProviderController@recycle')->name('admin.providers.recycle');
+    Route::get('/admin/fornecedores/destroy/{data}','\App\Http\Controllers\Admin\ProviderController@destroy')->name('admin.providers.destroy');
 });

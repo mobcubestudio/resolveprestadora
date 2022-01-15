@@ -2,12 +2,12 @@
 @section('content')
 
 @php
-$model = 'clients';
-$var = 'client';
-$base_uri = 'clientes';
+$model = 'providers';
+$var = 'provider';
+$base_uri = 'fornecedores';
 $genre = 'o';
-$name_singular = 'cliente';
-$name_plural = 'clientes';
+$name_singular = 'fornecedor';
+$name_plural = 'fornecedores';
 $image = false;
 @endphp
 

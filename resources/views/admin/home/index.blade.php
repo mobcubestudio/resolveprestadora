@@ -1,4 +1,4 @@
 @extends('layouts.admin')
 @section('content')
-    <h1>DASHBOARD</h1>
+    <h1>DASHBOARD NOVO DOMINIO</h1>
 @endsection

@@ -21,6 +21,8 @@ Route::namespace('Site')->group(function (){
 Route::namespace('Admin')->group(function (){
     Route::get('/admin','\App\Http\Controllers\Admin\HomeController@index')->name('admin.home');
 
+    //AJAX
+    Route::post('ajax/produtos_comprados',['as'=>'admin.ajax.produtos_comprados', 'uses'=>'\App\Http\Controllers\Admin\AjaxCotroller@produtosComprados']);
 
     //PRODUTOS
     Route::get('/admin/produtos','\App\Http\Controllers\Admin\ProductController@index')->name('admin.products');
@@ -62,4 +64,13 @@ Route::namespace('Admin')->group(function (){
     Route::post('/admin/fornecedores/update','\App\Http\Controllers\Admin\ProviderController@update')->name('admin.providers.action.update');
     Route::get('/admin/fornecedores/recycle/{id}','\App\Http\Controllers\Admin\ProviderController@recycle')->name('admin.providers.recycle');
     Route::get('/admin/fornecedores/destroy/{data}','\App\Http\Controllers\Admin\ProviderController@destroy')->name('admin.providers.destroy');
+
+    //PURCHASES
+    Route::get('/admin/compras','\App\Http\Controllers\Admin\PurchaseController@index')->name('admin.purchases');
+    //Route::get('/admin/compras/lixo','\App\Http\Controllers\Admin\PurchaseController@trash')->name('admin.purchases.trash');
+    Route::get('/admin/compras/form','\App\Http\Controllers\Admin\PurchaseController@create')->name('admin.purchases.form.create');
+    Route::post('/admin/compras/create','\App\Http\Controllers\Admin\PurchaseController@store')->name('admin.purchases.action.create');
+
+    //Route::get('/admin/compras/recycle/{id}','\App\Http\Controllers\Admin\PurchaseController@recycle')->name('admin.purchases.recycle');
+    //Route::get('/admin/compras/destroy/{data}','\App\Http\Controllers\Admin\PurchaseController@destroy')->name('admin.purchases.destroy');
 });

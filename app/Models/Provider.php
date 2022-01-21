@@ -21,8 +21,8 @@ class Provider extends Model
       'deleted_at'
     ];
 
-    public function productPurchase()
+    public function purchase()
     {
-        return $this->hasMany(ProductPurchase::class);
+        return $this->hasMany(Purchase::class);
     }
 }

@@ -33,9 +33,9 @@ class AddOrderedAndSelectedAndSentByToProductOutputs extends Migration
     public function down()
     {
         Schema::table('product_outputs', function (Blueprint $table) {
-            $table->dropPrimary('ordered_by');
-            $table->dropPrimary('selected_by');
-            $table->dropPrimary('sent_by');
+            $table->dropColumn('ordered_by');
+            $table->dropColumn('selected_by');
+            $table->dropColumn('sent_by');
         });
     }
 }

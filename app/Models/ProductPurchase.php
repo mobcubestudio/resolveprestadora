@@ -10,10 +10,7 @@ class ProductPurchase extends Model
     use HasFactory;
 
     protected $fillable = [
-      'date_received',
-      'price',
-      'amount',
-      'status'
+      'amount'
     ];
 
     public function product()
@@ -21,13 +18,8 @@ class ProductPurchase extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function provider()
-    {
-        return $this->belongsTo(Provider::class);
+    public function purchase(){
+        return $this->belongsTo(Purchase::class);
     }
 
-    public function employee()
-    {
-        return $this->belongsTo(Employee::class);
-    }
 }

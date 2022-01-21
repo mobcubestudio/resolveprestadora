@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <link rel="stylesheet" href="{{asset('css/cropper.css')}}">
     @toastr_css
+    @yield('head')
+    <meta name="csrf-token" content="{{csrf_token()}}" />
 </head>
 <body>
 
@@ -87,6 +89,18 @@
                             <hr class="dropdown-divider">
                         </li>
                         <li><a class="dropdown-item" href="{{asset('admin/fornecedores/lixo')}}">Lixeira</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Compras
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{{asset('admin/compras')}}">Listar</a></li>
+                        <li><a class="dropdown-item" href="{{asset('admin/compras/form')}}">Cadastrar</a></li>
+                        <li>
+
                     </ul>
                 </li>
 

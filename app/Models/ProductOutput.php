@@ -10,11 +10,7 @@ class ProductOutput extends Model
     use HasFactory;
 
     protected $fillable = [
-      'date_time_order',
-      'date_time_selected',
-      'date_time_sent',
-      'amount',
-      'status'
+      'amount'
     ];
 
     public function product()
@@ -22,13 +18,8 @@ class ProductOutput extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function employee()
+    public function output()
     {
-        return $this->belongsTo(Employee::class);
-    }
-
-    public function client()
-    {
-        return $this->belongsTo(Client::class);
+        return $this->belongsTo(Output::class);
     }
 }

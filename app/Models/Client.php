@@ -23,8 +23,8 @@ class Client extends Model
       'deleted_at'
     ];
 
-    public function productOutput()
+    public function output()
     {
-        return $this->hasMany(ProductOutput::class);
+        return $this->hasMany(Output::class);
     }
 }

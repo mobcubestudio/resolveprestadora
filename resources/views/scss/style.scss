@@ -1,3 +1,17 @@
+//SELECT 2
+.select2-container .select2-selection--single {
+    height: 37px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    top: 7px !important;
+}
+
+.select2-container .select2-selection--single .select2-selection__rendered {
+    padding-top: 3px !important;
+}
+//END SELECT 2
+
 .quantidade-baixa{ color: red !important; }
 .icon-editar
 {
@@ -113,7 +127,7 @@ $colors: (
 $primary:       $green !default;
 $secondary:     $gray-600 !default;
 $success:       $green !default;
-$info:          $cyan !default;
+$info:          $blue !default;
 $warning:       $yellow !default;
 $danger:        $red !default;
 $light:         $gray-100 !default;

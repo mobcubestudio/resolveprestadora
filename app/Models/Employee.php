@@ -43,9 +43,9 @@ class Employee extends Model
         return $this->hasMany(ProductOutput::class);
     }
 
-    public function productPurchase()
+    public function purchase()
     {
-        return $this->hasMany(ProductPurchase::class);
+        return $this->hasMany(Purchase::class);
     }
 
 

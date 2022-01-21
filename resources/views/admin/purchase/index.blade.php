@@ -130,6 +130,7 @@
         <script>
             $(function () {
                $(document).on('click','#ver-produtos',function () {
+                   $("#lista-produtos-comprados").html("");
                    var id_purchase = $(this).attr('id-purchase');
                    var modal_products = $("#modal");
                    modal_products.modal('show');
@@ -138,6 +139,7 @@
 
                    $.ajax({
                        url: "{{route('admin.ajax.produtos_comprados')}}",
+                       cache: false,
                        type: 'POST',
                        data: {
                            id_purchase:id_purchase,

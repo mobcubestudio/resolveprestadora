@@ -21,7 +21,7 @@ class AjaxCotroller extends Controller
 
         foreach ($purchases as $var){
             $json[] = array(
-                'product'=>Product::find($var->product_id)->name,
+                'product'=>Product::withTrashed()->find($var->product_id)->name,
                 'amount'=>$var->amount
             );
         }

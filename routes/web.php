@@ -23,6 +23,8 @@ Route::namespace('Admin')->group(function (){
 
     //AJAX
     Route::post('ajax/produtos_comprados',['as'=>'admin.ajax.produtos_comprados', 'uses'=>'\App\Http\Controllers\Admin\AjaxCotroller@produtosComprados']);
+    Route::post('ajax/separar_produtos_lista',['as'=>'admin.ajax.separar_produtos.lista', 'uses'=>'\App\Http\Controllers\Admin\AjaxCotroller@separarProdutosLista']);
+    Route::post('ajax/separar_produtos_submit',['as'=>'admin.ajax.separar_produtos.submit', 'uses'=>'\App\Http\Controllers\Admin\AjaxCotroller@separarProdutosSubmit']);
 
     //PRODUTOS
     Route::get('/admin/produtos','\App\Http\Controllers\Admin\ProductController@index')->name('admin.products');
@@ -70,6 +72,13 @@ Route::namespace('Admin')->group(function (){
     //Route::get('/admin/compras/lixo','\App\Http\Controllers\Admin\PurchaseController@trash')->name('admin.purchases.trash');
     Route::get('/admin/compras/form','\App\Http\Controllers\Admin\PurchaseController@create')->name('admin.purchases.form.create');
     Route::post('/admin/compras/create','\App\Http\Controllers\Admin\PurchaseController@store')->name('admin.purchases.action.create');
+
+    //OUTPUTS
+    Route::get('/admin/pedidos','\App\Http\Controllers\Admin\OutputController@index')->name('admin.outputs');
+    //Route::get('/admin/pedidos/lixo','\App\Http\Controllers\Admin\OutputController@trash')->name('admin.outputs.trash');
+    Route::get('/admin/pedidos/form','\App\Http\Controllers\Admin\OutputController@create')->name('admin.outputs.form.create');
+    Route::post('/admin/pedidos/create','\App\Http\Controllers\Admin\OutputController@store')->name('admin.outputs.action.create');
+    Route::post('/admin/pedidos/separate','\App\Http\Controllers\Admin\OutputController@separate')->name('admin.outputs.action.separate');
 
     //Route::get('/admin/compras/recycle/{id}','\App\Http\Controllers\Admin\PurchaseController@recycle')->name('admin.purchases.recycle');
     //Route::get('/admin/compras/destroy/{data}','\App\Http\Controllers\Admin\PurchaseController@destroy')->name('admin.purchases.destroy');

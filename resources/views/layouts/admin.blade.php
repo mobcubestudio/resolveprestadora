@@ -100,11 +100,19 @@
                         <li><a class="dropdown-item" href="{{asset('admin/compras')}}">Listar</a></li>
                         <li><a class="dropdown-item" href="{{asset('admin/compras/form')}}">Cadastrar</a></li>
                         <li>
-
                     </ul>
                 </li>
 
-
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Pedidos
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{{asset('admin/pedidos')}}">Listar</a></li>
+                        <li><a class="dropdown-item" href="{{asset('admin/pedidos/form')}}">Cadastrar</a></li>
+                        <li>
+                    </ul>
+                </li>
 
                 <li class="nav-item">
                     <a class="nav-link disabled">Disabled</a>

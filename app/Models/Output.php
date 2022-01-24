@@ -26,4 +26,10 @@ class Output extends Model
     public function productOutput(){
         return $this->hasMany(ProductOutput::class);
     }
+
+    public function getStatusAttribute(){
+        $statusName = ['P'=>'Pedido','S'=>'Separado','E'=>'Enviado'];
+        return $statusName[$this->attributes['status']];
+    }
+
 }

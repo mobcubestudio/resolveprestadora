@@ -6,29 +6,24 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Client extends Model
+class Patrimony extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
     protected $fillable = [
-        'cnpj',
         'name',
-        'address',
-        'number',
-        'district'
+        'brand',
+        'model',
+        'serial_no',
+        'comment'
     ];
 
     protected $dates = [
-      'deleted_at'
+        'deleted_at'
     ];
 
-    public function output()
-    {
-        return $this->hasMany(Output::class);
-    }
-
-    public function patrimony(){
-        return $this->hasMany(Patrimony::class);
+    public function client(){
+        return $this->belongsTo(Client::class);
     }
 }

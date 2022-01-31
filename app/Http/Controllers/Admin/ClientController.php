@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Client;
+use App\Models\Patrimony;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -134,5 +135,61 @@ class ClientController extends Controller
         $data->restore();
         toastr()->success($data->name.' restaurado com sucesso');
         return redirect()->route('admin.'.$this->route_name);
+    }
+
+    public function patrimonyList(Client $client){
+        $data = $client;
+        //dd($data->patrimony);
+        return view("admin.$this->view_name.patrimony",[
+            'datas' => $data->patrimony,
+            'client'=> $client
+        ]);
+
+    }
+
+    public function patrimonyAdd(Request $request){
+        $client = Client::find($request->post('client_id'));
+        $patrimony = new Patrimony;
+        $patrimony->client()->associate($request->post('client_id'));
+        $patrimony->name = $request->post('name');
+        $patrimony->brand = $request->post('brand');
+        $patrimony->model = $request->post('model');
+        $patrimony->serial_no = $request->post('serial_no');
+        $patrimony->comment = nl2br($request->post('comment'));
+        $patrimony->save();
+        toastr()->success(' Patrimônio cadastrado com sucesso.');
+        $this->imageUpload($request, $patrimony->id);
+        return redirect()->route('admin.'.$this->route_name.'.patrimony.list',['client'=>$client]);
+
+
+    }
+
+
+    /**
+     * Upload Image
+     *
+     * @param Request $request
+     * @param int $id
+     * @return void
+     */
+    private function imageUpload(Request $request, int $id)
+    {
+        $input = $request->all();
+
+
+        if ($input['image-crop']!=null) {
+
+            //dd($input['image-crop']);
+            $folderPath = public_path('images/patrimonies/');
+            $image_parts = explode(";base64,", $input['image-crop']);
+            $image_type_aux = explode("image/", $image_parts[0]);
+            $image_type = $image_type_aux[1];
+            $image_base64 = base64_decode($image_parts[1]);
+            // $file = $folderPath . uniqid() . '.png';
+            $filename = $id . '.jpg';
+            $file =$folderPath.$filename;
+            file_put_contents($file, $image_base64);
+        }
+
     }
 }

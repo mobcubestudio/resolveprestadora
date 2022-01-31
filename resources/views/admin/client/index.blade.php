@@ -80,6 +80,11 @@ $image = false;
                             <use xlink:href="{{asset('images/actions/bootstrap-icons.svg')}}#file-earmark-text"></use>
                         </svg>
                     </a>
+                    <a class="icon-action" style="margin-right: 1em" href="{{route("admin.$model.patrimony.list",["$var"=>$data])}}" data-bs-toggle="tooltip" data-bs-placement="top" title="Patrimõnio de: {{$data->name}}">
+                        <svg class="bi" width="1.5em" height="1.5em" fill="currentColor">
+                            <use xlink:href="{{asset('images/actions/bootstrap-icons.svg')}}#shield-shaded"></use>
+                        </svg>
+                    </a>
                     <a class="icon-action" style="margin-right: 1em" href="{{route("admin.$model.form.edit",["$var"=>$data])}}" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar: {{$data->name}}">
                         <svg class="bi" width="1.5em" height="1.5em" fill="currentColor">
                             <use xlink:href="{{asset('images/actions/bootstrap-icons.svg')}}#pencil-square"></use>

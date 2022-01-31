@@ -52,6 +52,8 @@ Route::namespace('Admin')->group(function (){
     Route::get('/admin/clientes/lixo','\App\Http\Controllers\Admin\ClientController@trash')->name('admin.clients.trash');
     Route::get('/admin/clientes/form','\App\Http\Controllers\Admin\ClientController@create')->name('admin.clients.form.create');
     Route::get('/admin/clientes/form/{client}','\App\Http\Controllers\Admin\ClientController@edit')->name('admin.clients.form.edit');
+    Route::get('/admin/clientes/patrimony/{client}','\App\Http\Controllers\Admin\ClientController@patrimonyList')->name('admin.clients.patrimony.list');
+    Route::post('/admin/clientes/patrimony/add','\App\Http\Controllers\Admin\ClientController@patrimonyAdd')->name('admin.clients.patrimony.add');
     Route::post('/admin/clientes/create','\App\Http\Controllers\Admin\ClientController@store')->name('admin.clients.action.create');
     Route::post('/admin/clientes/update','\App\Http\Controllers\Admin\ClientController@update')->name('admin.clients.action.update');
     Route::get('/admin/clientes/recycle/{id}','\App\Http\Controllers\Admin\ClientController@recycle')->name('admin.clients.recycle');

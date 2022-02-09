@@ -84,7 +84,7 @@ class OutputController extends Controller
             $product_output->save();
 
 
-            //dd($product);
+            dd($product);
             $i++;
         }
 

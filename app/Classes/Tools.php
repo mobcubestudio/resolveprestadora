@@ -5,6 +5,8 @@ namespace App\Classes;
 
 use App\Models\Action;
 use App\Models\ActionPermission;
+use App\Models\Client;
+use App\Models\Employee;
 use App\Models\Menu;
 use App\Models\MenuPermission;
 use App\Models\Submenu;
@@ -21,6 +23,17 @@ class Tools
     public function __construct()
     {
         $this->sessionMenu();
+
+        //var_dump(Session::get('funcionario[1]'));
+
+        if(!Session::get('funcionarios')){
+            Session::put('funcionarios',true);
+            $s_funcionarios = Employee::all();
+            foreach ($s_funcionarios as $s_funcionario){
+                Session::put('funcionario['.$s_funcionario->id.']',$s_funcionario->name);
+            }
+        }
+
     }
 
     public function sessionMenu()
@@ -194,5 +207,22 @@ class Tools
 
     }
 
+    public function getStatusPedido($status_code)
+    {
+        $status = array(
+            'P'=>'Solicitado',
+            'S'=>'Separado',
+            'R'=>'Em Rota',
+            'E'=>'Entregue'
+        );
+
+        return $status[$status_code];
+    }
+
+    public function getCliente($cliente_cod)
+    {
+        $clientes = Client::all();
+
+    }
 
 }

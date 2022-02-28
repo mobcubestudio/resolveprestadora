@@ -8,6 +8,7 @@ use App\Models\ProductOutput;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 
@@ -33,12 +34,47 @@ class ProductController extends Controller
      */
     public function relatorio(Request $request)
     {
+        $o=1;
 
-            $saida = ProductOutput::where('product_id',$request->get('product'));
+            $produto = Product::find($request->get('product'))->first()->name;
 
 
-            $pdf = PDF::loadView('admin.product.relatorio');
-            return $pdf->setPaper('a4')->stream('relatorio.pdf');
+            $pedidos = DB::table('products')
+                            ->join('product_outputs','products.id','product_outputs.product_id')
+                            ->join('outputs','product_outputs.output_id','outputs.id')
+                            ->join('clients','outputs.client_id','clients.id')
+                            ->select(
+                                    'outputs.status',
+                                    'outputs.ordered_date_time',
+                                    'outputs.selected_date_time',
+                                    'outputs.sent_date_time',
+                                    'outputs.received_date_time',
+                                    'outputs.ordered_by',
+                                    'outputs.selected_by',
+                                    'outputs.sent_by',
+                                    'outputs.received_by',
+                                    'outputs.received_notes',
+                                    'clients.name as cliente',
+                                    'product_outputs.amount'
+                            )
+                            ->where('products.id',$request->get('product'))
+                            ->orderBy('outputs.ordered_date_time','desc')
+                            ->get();
+
+            //dd($saida);
+            if($o==1) {
+                $pdf = PDF::loadView('admin.product.relatorio',[
+                    'produto'=>$produto,
+                    'pedidos'=>$pedidos
+                ]);
+                return $pdf->setPaper('a4')->stream('relatorio.pdf');
+            } else {
+                return view('admin.product.relatorio',[
+                    'pedidos'=>$pedidos
+                ]);
+            }
+
+
     }
 
     /**

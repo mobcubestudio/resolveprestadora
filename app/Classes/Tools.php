@@ -27,6 +27,7 @@ class Tools
     {
 
 
+
             $url = URL::current();
             $isola_parametros = substr($url,strpos($url,'admin')+6);
             //$conta_barras = str_word_count($isola_parametros,0);
@@ -34,7 +35,7 @@ class Tools
 
             $separa_parametros = explode('/',$isola_parametros);
 
-            //dd($separa_parametros[0]);
+            dd($separa_parametros[0]);
 
 
             if($separa_parametros[0]!='busca'){

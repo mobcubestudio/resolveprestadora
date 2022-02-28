@@ -2,7 +2,6 @@
 @section('content')
 
 @php
-    use App\Classes\Tools;
     $model = 'clients';
     $var = 'client';
     $base_uri = 'clientes';

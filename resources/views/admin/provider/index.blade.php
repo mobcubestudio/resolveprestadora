@@ -2,7 +2,6 @@
 @section('content')
 
 @php
-    use App\Classes\Tools;
     $model = 'providers';
     $var = 'provider';
     $base_uri = 'fornecedores';

@@ -2,8 +2,6 @@
 @section('content')
 
 @php
-
-    use App\Classes\Tools;
     //dd($datas);
     $model = 'submenus';
     $var = 'submenu';

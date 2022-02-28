@@ -2,7 +2,6 @@
 @section('content')
 
 @php
-    //use App\Classes\Tools;
     $model = 'employees';
     $var = 'employee';
     $base_uri = 'funcionarios';

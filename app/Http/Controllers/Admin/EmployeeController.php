@@ -208,6 +208,21 @@ class EmployeeController extends Controller
         $menus = Menu::all();
         $user = $employee->user()->first();
 
+        //VERIFICA SE JÁ EXISTE USUARIO PARA O FUNCIONÁRIO E CRIA SE NAO TIVER
+        if(count(User::where('employee_id',$employee->id)->get())==0){
+
+            $senha = '123456';
+
+            $user = new User();
+            $user->employee()->associate($employee->id);
+            $user->name = $employee->name;
+            $user->email = $employee->email;
+            $user->matricula = $employee->matricula;
+            $user->password = Hash::make($senha);
+            $user->save();
+        }
+
+
         //dd($user);
 
         $arrMenu = array();

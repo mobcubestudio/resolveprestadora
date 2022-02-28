@@ -35,7 +35,7 @@ class Tools
 
             $separa_parametros = explode('/',$isola_parametros);
 
-            dd($separa_parametros[0]);
+            dd($separa_parametros);
 
 
             if($separa_parametros[0]!='busca'){

@@ -2,7 +2,7 @@
 @section('content')
 
     @php
-        use App\Classes\Tools;
+        //use App\Classes\Tools;
             //dd(\Illuminate\Support\Facades\Auth::user()->name);
             $model = 'products';
             $var = 'product';

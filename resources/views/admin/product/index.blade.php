@@ -2,9 +2,10 @@
 @section('content')
 
     @php
-        //dd(\Illuminate\Support\Facades\Auth::user()->name);
-        $model = 'products';
-        $var = 'product';
+        use App\Classes\Tools;
+            //dd(\Illuminate\Support\Facades\Auth::user()->name);
+            $model = 'products';
+            $var = 'product';
     @endphp
 
 
@@ -60,7 +61,6 @@
                     </a-->
 
                 @php
-                    use App\Classes\Tools;
                     Tools::montaAcoes([$var=>$product]);
                 @endphp
 

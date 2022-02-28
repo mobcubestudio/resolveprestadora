@@ -35,10 +35,11 @@ class Tools
 
             $separa_parametros = explode('/',$isola_parametros);
 
-            dd($separa_parametros);
+
 
 
             if($separa_parametros[0]!='busca'){
+                dd($separa_parametros);
                 $menu_find = Menu::where('asset',$separa_parametros[0])->get();
 
                 Session::put('menu_id',$menu_find->First()->id);

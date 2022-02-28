@@ -1,5 +1,8 @@
 @extends('layouts.admin')
 
+@section('head')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+@endsection
 
 
 @section('content')
@@ -151,7 +154,7 @@
 
 
 
-    <div id="modal" class="modal fade bd-example-modal-lg" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div id="modal" class="modal fade bd-example-modal-lg" data-bs-backdrop="static" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content p-3">
                 <h3 class="text-center text-info mb-3">{{$titulo_modal}}</h3>
@@ -162,13 +165,15 @@
                         <input type="hidden" name="id" id="id">
 
                         @if(Session::get('submenu_id')==9)
-                            <select name="recebido_por"  id="responsavel" class="form-select mb-3" >
+                            <div class="mb-3">
+                            <select style="width: 100%" name="recebido_por"  id="responsavel" class="form-select mb-3" aria-label=".form-select-lg example">
                                 <option value="">Quem recebeu o pedido?</option>
                                 @foreach($employees as $employee)
                                     <option
                                         value="{{$employee->id}}">{{$employee->name}}</option>
                                 @endforeach
                             </select>
+                            </div>
                             <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
@@ -206,14 +211,15 @@
 @endsection
 
 @section('footer_js')
-
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script src="{{ asset('js/jquery.mask.min.js')}}"></script>
         <script>
             $(function () {
-
-
+                $("#responsavel").select2({
+                    dropdownParent: $("#modal")
+                });
                 //ENVIA DADOS
                 $(document).on("submit","#modal-form",function () {
-
                         fecha_modal();
                         return true;
 
@@ -228,6 +234,7 @@
 
 
                $(document).on('click','#ver-produtos',function () {
+
                    let _token   = $('meta[name="csrf-token"]').attr('content');
                    $("#action-output").val($(this).attr('data-extra'));
                    $("#lista-produtos-comprados").html("");

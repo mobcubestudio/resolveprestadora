@@ -18,7 +18,6 @@
         $action = "Cadastrar";
 
         $id = null;
-        $employee_id = null;
         $client_id = null;
 
         $img_thumb = asset("images/produto-sem-foto.jpg");
@@ -67,7 +66,6 @@
                     * 7 - lista de resultados possiveis em caso de (5= select)
                     */
                     $fields = [
-                        ['Funcionário',true,'ordered_by',null,null,'select',$employee_id,$list_employees],
                         ['Cliente',true,'client_id',null,null,'select',$client_id,$list_clients]
                     ];
                 @endphp

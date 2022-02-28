@@ -138,8 +138,9 @@ class OutputController extends Controller
 
         //CADASTRANDO PEDIDO
         $output = new Output();
-        $output->ordered_by = $request->post('ordered_by');
+        $output->ordered_by = Auth::user()->id;
         $output->ordered_date_time = date_create();
+        $output->status = 'P';
         $output->client()->associate($request->post('client_id'));
         $output->save();
 

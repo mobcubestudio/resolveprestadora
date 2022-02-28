@@ -50,7 +50,7 @@
                 }
 
             @endphp
-            <h1 class="page-title">{{$action}} Funcionário</h1>
+            <h1 class="page-title">{{$action}} para {{$user_name}}</h1>
 
             <form action="{{route("admin.$model.permission.do")}}" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="user_id" value="{{$user_id}}">

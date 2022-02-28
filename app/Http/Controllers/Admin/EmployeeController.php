@@ -292,7 +292,8 @@ class EmployeeController extends Controller
 
         return view('admin.employee.permission',[
             'menus_grid'=>$arrMenu,
-            'user_id' => $user->id
+            'user_id' => $user->id,
+            'user_name'=>$user->name
         ]);
     }
 
@@ -302,8 +303,8 @@ class EmployeeController extends Controller
         //ddd($request);
 
         $user_id = $request->post('user_id');
-        $employee_id = User::find($user_id)->First()->employee_id;
-        dd($employee_id);
+        $employee = User::find($user_id);
+        //dd($employee_id->employee_id);
         $a ='';
         DB::table('menu_permissions')->where('user_id',$user_id)->delete();
         DB::table('submenu_permissions')->where('user_id',$user_id)->delete();
@@ -348,7 +349,7 @@ class EmployeeController extends Controller
         }
         //dd($a);
         toastr()->success('Permissões Atualizadas com sucesso.');
-        return redirect()->route('admin.employees.permission',['employee'=>$request->post('user_id')]);
+        return redirect()->route('admin.employees.permission',['employee'=>$employee->employee_id]);
 
     }
 }

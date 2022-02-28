@@ -302,6 +302,7 @@ class EmployeeController extends Controller
         //ddd($request);
 
         $user_id = $request->post('user_id');
+        dd($user_id);
         $a ='';
         DB::table('menu_permissions')->where('user_id',$user_id)->delete();
         DB::table('submenu_permissions')->where('user_id',$user_id)->delete();

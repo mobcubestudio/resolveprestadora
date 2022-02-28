@@ -5,6 +5,7 @@
 @section('content')
 
 @php
+    use App\Classes\Tools;
     use App\Models\Employee;
     $rota = Route::currentRouteName();
     $model = 'outputs';

@@ -2,6 +2,7 @@
 @section('content')
 
 @php
+    use App\Classes\Tools;
     //dd($datas);
     $model = 'menus';
     $var = 'menu';

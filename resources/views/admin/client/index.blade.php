@@ -2,13 +2,14 @@
 @section('content')
 
 @php
-$model = 'clients';
-$var = 'client';
-$base_uri = 'clientes';
-$genre = 'o';
-$name_singular = 'cliente';
-$name_plural = 'clientes';
-$image = false;
+    use App\Classes\Tools;
+    $model = 'clients';
+    $var = 'client';
+    $base_uri = 'clientes';
+    $genre = 'o';
+    $name_singular = 'cliente';
+    $name_plural = 'clientes';
+    $image = false;
 @endphp
 
 @php

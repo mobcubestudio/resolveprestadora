@@ -2,14 +2,15 @@
 @section('content')
 
 @php
-    //dd($datas);
-    $model = 'purchases';
-    $var = 'purchase';
-    $base_uri = 'compras';
-    $genre = 'a';
-    $name_singular = 'compra';
-    $name_plural = 'compras';
-    $image = false;
+        use App\Classes\Tools;
+        //dd($datas);
+        $model = 'purchases';
+        $var = 'purchase';
+        $base_uri = 'compras';
+        $genre = 'a';
+        $name_singular = 'compra';
+        $name_plural = 'compras';
+        $image = false;
 @endphp
 
 @php

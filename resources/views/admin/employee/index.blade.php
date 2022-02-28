@@ -2,12 +2,13 @@
 @section('content')
 
 @php
-$model = 'employees';
-$var = 'employee';
-$base_uri = 'funcionarios';
-$genre = 'o';
-$name_singular = 'funcionário';
-$name_plural = 'Funcionários';
+    use App\Classes\Tools;
+    $model = 'employees';
+    $var = 'employee';
+    $base_uri = 'funcionarios';
+    $genre = 'o';
+    $name_singular = 'funcionário';
+    $name_plural = 'Funcionários';
 @endphp
 
 

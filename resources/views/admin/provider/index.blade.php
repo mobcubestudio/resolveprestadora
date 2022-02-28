@@ -2,13 +2,14 @@
 @section('content')
 
 @php
-$model = 'providers';
-$var = 'provider';
-$base_uri = 'fornecedores';
-$genre = 'o';
-$name_singular = 'fornecedor';
-$name_plural = 'fornecedores';
-$image = false;
+    use App\Classes\Tools;
+    $model = 'providers';
+    $var = 'provider';
+    $base_uri = 'fornecedores';
+    $genre = 'o';
+    $name_singular = 'fornecedor';
+    $name_plural = 'fornecedores';
+    $image = false;
 @endphp
 
 @php

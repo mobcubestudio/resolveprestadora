@@ -5,7 +5,7 @@
         //ddd($menus_grid);
         $model = 'employees';
         $action_model = 'create';
-        $action = "Perissões";
+        $action = "Permissões";
         $id = null;
         $role_id = null;
         $registration = null;

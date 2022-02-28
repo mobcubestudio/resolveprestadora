@@ -106,11 +106,11 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Client $data)
+    public function destroy(Client $client)
     {
         //dd($data);
-        $data->delete();
-        toastr()->success($data->name.' movido para a lixeira.');
+        $client->delete();
+        toastr()->success($client->name.' movido para a lixeira.');
         return redirect()->route('admin.'.$this->route_name);
     }
 
@@ -131,6 +131,7 @@ class ClientController extends Controller
     public function recycle($id)
     {
         //dd($id);
+        //$id = $client->id;
         $data = Client::onlyTrashed()->findOrFail($id);
         $data->restore();
         toastr()->success($data->name.' restaurado com sucesso');

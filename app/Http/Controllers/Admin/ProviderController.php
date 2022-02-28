@@ -103,11 +103,11 @@ class ProviderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Provider $data)
+    public function destroy(Provider $provider)
     {
         //dd($data);
-        $data->delete();
-        toastr()->success($data->name.' movido para a lixeira.');
+        $provider->delete();
+        toastr()->success($provider->name.' movido para a lixeira.');
         return redirect()->route('admin.'.$this->route_name);
     }
 

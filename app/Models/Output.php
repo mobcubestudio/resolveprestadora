@@ -11,12 +11,18 @@ class Output extends Model
 
     protected $fillable = [
         'ordered_by',
-        'ordered_date_time',
         'selected_by',
-        'selected_date_time',
         'sent_by',
-        'sent_date_time',
+        'received_by',
+        'received_notes',
         'status'
+    ];
+
+    protected $dates = [
+        'ordered_date_time',
+        'selected_date_time',
+        'sent_date_time',
+        'received_date_time'
     ];
 
     public function client(){
@@ -28,7 +34,7 @@ class Output extends Model
     }
 
     public function getStatusAttribute(){
-        $statusName = ['P'=>'Pedido','S'=>'Separado','E'=>'Enviado'];
+        $statusName = ['P'=>'Solicitado','S'=>'Separado','E'=>'Entregue','R'=>'Rota de Entrega'];
         return $statusName[$this->attributes['status']];
     }
 

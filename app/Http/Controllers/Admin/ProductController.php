@@ -4,10 +4,17 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\ProductOutput;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+
 
 class ProductController extends Controller
 {
+
+
     /**
      * Display a listing of the resource.
      *
@@ -15,9 +22,23 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view ('admin.product.index',[
-            'products' => Product::all()
-        ]);
+            return view('admin.product.index', [
+                'products' => Product::all()
+            ]);
+    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function relatorio(Request $request)
+    {
+
+            $saida = ProductOutput::where('product_id',$request->get('product'));
+
+
+            $pdf = PDF::loadView('admin.product.relatorio');
+            return $pdf->setPaper('a4')->stream('relatorio.pdf');
     }
 
     /**

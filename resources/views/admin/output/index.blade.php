@@ -5,7 +5,8 @@
 @section('content')
 
 @php
-    //dd($employees);
+    use App\Models\Employee;
+    $rota = Route::currentRouteName();
     $model = 'outputs';
     $var = 'output';
     $base_uri = 'pedidos';
@@ -13,6 +14,7 @@
     $name_singular = 'pedido';
     $name_plural = 'pedidos';
     $image = false;
+    $titulo_modal = '';
 @endphp
 
 @php
@@ -23,16 +25,28 @@
     * 3 - style
     * 4 - Align (class)
     */
-    $heads_table = [
-        //['Foto','col text-center', 'width: 100px'],
-        ['Data','col',null,'text-start'],
-        ['Cliente','col',null,'text-start'],
-        ['Status','col',null,'text-start']
-    ];
+    if ($rota=='admin.outputs.delivered'){
+        $heads_table = [
+            //['Foto','col text-center', 'width: 100px'],
+            ['Data','col',null,'text-start'],
+            ['Cliente','col',null,'text-start'],
+            ['Responsável','col',null,'text-start'],
+            ['Observações','col',null,'text-start'],
+            ['Status','col',null,'text-start']
+        ];
+    } else {
+        $heads_table = [
+            //['Foto','col text-center', 'width: 100px'],
+            ['Data','col',null,'text-start'],
+            ['Cliente','col',null,'text-start'],
+            ['Responsável','col',null,'text-start'],
+            ['Status','col',null,'text-start']
+        ];
+    }
 @endphp
 
 <div class="container">
-    <h1 class="pt-4 pb-4 text-center">Lista de {{ucfirst($name_plural)}}</h1>
+    <h1 class="pt-4 pb-4 text-center">Lista de {{ucfirst($name_plural)}} {{$titulo_pagina}}</h1>
     <table class="table table-hover table-striped table-responsive">
         <thead class="bg-primary text-white">
             <tr >
@@ -56,11 +70,36 @@
             @foreach($datas as $data)
 
                 @php
-                  $values = [
-                                date_format($data->created_at,'d/m/y'),
-                                $data->client->name,
-                                $data->status,
-                             ];
+                    if($rota=='admin.outputs.request' || $rota=='admin.outputs'){
+                        $titulo_modal = 'Separar Produtos';
+                        $responsavel = Employee::find($data->ordered_by)->name;
+                    } elseif ($rota=='admin.outputs.separated'){
+                        $titulo_modal = 'Enviar para rota de entrega';
+                        $responsavel = Employee::find($data->selected_by)->name;
+                    } elseif ($rota=='admin.outputs.route'){
+                        $titulo_modal = 'Finalizar pedido';
+                        $responsavel = Employee::find($data->sent_by)->name;
+                    } elseif ($rota=='admin.outputs.delivered'){
+                        $responsavel = ($data->received_by) ? Employee::find($data->received_by)->name : '';
+                    }
+
+                    if ($rota=='admin.outputs.delivered'){
+                      $values = [
+                                    date_format($data->{$campo_data},'d/m/y H:i'),
+                                    $data->client->name,
+                                    $responsavel,
+                                    $data->received_notes,
+                                    $data->status,
+                                 ];
+                    } else {
+                        $values = [
+                                    date_format($data->{$campo_data},'d/m/y H:i'),
+                                    $data->client->name,
+                                    $responsavel,
+                                    $data->status,
+                                 ];
+                    }
+
                 @endphp
 
             <tr class="align-middle">
@@ -89,11 +128,14 @@
 
 
                 <td class="text-center">
-                    <a class="icon-action" id="ver-produtos" id-output="{{$data->id}}" style="margin-right: 0em"  data-bs-toggle="tooltip" data-bs-placement="top" title="Separar produtos">
+                    <!--a class="icon-action" id="ver-produtos" id-output="{{$data->id}}" style="margin-right: 0em"  data-bs-toggle="tooltip" data-bs-placement="top" title="Separar produtos">
                         <svg class="bi" width="1.5em" height="1.5em" fill="currentColor">
                             <use xlink:href="{{asset('images/actions/bootstrap-icons.svg')}}#boxes"></use>
                         </svg>
-                    </a>
+                    </a-->
+                    @php
+                        Tools::montaAcoes([$var=>$data]);
+                    @endphp
                 </th>
             </tr>
             @endforeach
@@ -112,18 +154,30 @@
     <div id="modal" class="modal fade bd-example-modal-lg" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content p-3">
-                <h3 class="text-center text-info mb-3">Separar Produtos</h3>
-                <form id="modal-form" action="{{route("admin.$model.action.separate")}}" method="post">
+                <h3 class="text-center text-info mb-3">{{$titulo_modal}}</h3>
+                <form id="modal-form" action="{{route("admin.$model.action")}}" method="post">
                     @csrf
                     <div class="container mt-3 mb-3">
+                        <input type="hidden" id="action-output" name="action_output" value="">
                         <input type="hidden" name="id" id="id">
-                        <select name="employee"  id="responsavel" class="form-select mb-3" >
-                            <option value="">Responsável por separar o pedido</option>
-                            @foreach($employees as $employee)
-                                <option
-                                    value="{{$employee->id}}">{{$employee->name}}</option>
-                            @endforeach
-                        </select>
+
+                        @if(Session::get('submenu_id')==9)
+                            <select name="recebido_por"  id="responsavel" class="form-select mb-3" >
+                                <option value="">Quem recebeu o pedido?</option>
+                                @foreach($employees as $employee)
+                                    <option
+                                        value="{{$employee->id}}">{{$employee->name}}</option>
+                                @endforeach
+                            </select>
+                            <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                                  <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                                </svg>
+                            </span>
+                                <input type="text" class="form-control" placeholder="Observações" name="recebido_anotacoes" aria-label="Username" aria-describedby="basic-addon1">
+                            </div>
+                        @endif
                     </div>
                     <table class="table">
                         <thead>
@@ -139,7 +193,7 @@
                     </table>
                     <div class="container text-end">
                         <button id="modal-close" type="button" class="btn btn-secondary">Fechar</button>
-                        <button id="modal-submit" type="submit" id-order="" class="btn btn-info">Pedido Separado</button>
+                        <button id="modal-submit" type="submit" id-order="" class="btn btn-info">Salvar</button>
                     </div>
                 </form>
             </div>
@@ -159,16 +213,10 @@
 
                 //ENVIA DADOS
                 $(document).on("submit","#modal-form",function () {
-                    var responsavel = $("#responsavel").val();
 
-
-                    if(responsavel==""){
-                        alert("Escolha o responsável pela separação do pedido.");
-                        return false;
-                    } else {
                         fecha_modal();
                         return true;
-                    }
+
                 });
 
                 //FECHA MODAL
@@ -181,10 +229,14 @@
 
                $(document).on('click','#ver-produtos',function () {
                    let _token   = $('meta[name="csrf-token"]').attr('content');
+                   $("#action-output").val($(this).attr('data-extra'));
                    $("#lista-produtos-comprados").html("");
-                   var id = $(this).attr('id-output');
+                   var id = $(this).attr('data-id');
                    var modal_products = $("#modal");
                    modal_products.modal('show');
+
+
+
 
                    $("#id").val(id);
                    $("#modal-submit").attr('id-order',id);

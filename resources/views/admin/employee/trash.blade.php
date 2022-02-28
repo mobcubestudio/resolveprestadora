@@ -52,16 +52,10 @@
 
 
                 <td class="text-center">
-                    <a onclick="return confirm('Tem certeza que deseja restaurar {{$genre}} {{$name_singular}} {{$employee->name}}?')"
-                       class="icon-action" style="margin-right: 0em"
-                       href="{{route("admin.$model.recycle",$employee->id)}}"
-                       data-bs-toggle="tooltip" data-bs-placement="top" title="Restaurar: {{$employee->name}}">
-                        <svg class="bi" width="1.5em" height="1.5em" fill="currentColor">
-                            <use xlink:href="{{asset('images/actions/bootstrap-icons.svg')}}#recycle"></use>
-                        </svg>
-                    </a>
-
-                </th>
+                    @php
+                        Tools::montaAcoes([$var=>$employee]);
+                    @endphp
+                </td>
             </tr>
             @endforeach
         </tbody>

@@ -13,6 +13,7 @@ use App\Models\Provider;
 use App\Models\Purchase;
 use App\Models\xProductPurchase;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OutputController extends Controller
 {
@@ -36,7 +37,77 @@ class OutputController extends Controller
         //dd($data->keys('id'));
         return view("admin.$this->view_name.index",[
             'datas' => $data,
-            'employees' => Employee::all()->whereNull('deleted_at')
+            'employees' => Employee::all()->whereNull('deleted_at'),
+            'titulo_pagina'=>'',
+            'campo_data'=>'ordered_date_time'
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function solicitados()
+    {
+        $data = Output::where('status','P')->get()->sortByDesc('created_at');
+        //dd($data->keys('id'));
+        return view("admin.$this->view_name.index",[
+            'datas' => $data,
+            'employees' => Employee::all()->whereNull('deleted_at'),
+            'titulo_pagina'=>'Solicitados',
+            'campo_data'=>'ordered_date_time'
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function rota()
+    {
+        $data = Output::where('status','R')->get()->sortByDesc('created_at');
+        //dd($data->keys('id'));
+        return view("admin.$this->view_name.index",[
+            'datas' => $data,
+            'employees' => Employee::all()->whereNull('deleted_at'),
+            'titulo_pagina'=>'em Rota',
+            'campo_data'=>'sent_date_time'
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function separados()
+    {
+        $data = Output::where('status','S')->get()->sortByDesc('created_at');
+        //dd($data->keys('id'));
+        return view("admin.$this->view_name.index",[
+            'datas' => $data,
+            'employees' => Employee::all()->whereNull('deleted_at'),
+            'titulo_pagina'=>'Separados',
+            'campo_data'=>'selected_date_time'
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function entregues()
+    {
+        $data = Output::where('status','E')->get()->sortByDesc('created_at');
+        //dd($data->keys('id'));
+        return view("admin.$this->view_name.index",[
+            'datas' => $data,
+            'employees' => Employee::all()->whereNull('deleted_at'),
+            'titulo_pagina'=>'Entregues',
+            'campo_data'=>'received_date_time'
         ]);
     }
 
@@ -99,17 +170,54 @@ class OutputController extends Controller
 
 
 
-    public function separate(Request $request){
+    public function action(Request $request){
         $id = $request->post('id');
-        $employee = $request->post('employee');
-        $output = Output::find($id);
-        $output->sent_by = $employee;
-        $output->sent_date_time = date_create();
-        $output->status = 'S';
-        $output->save();
 
-        toastr()->success(' Pedido separado com sucesso.');
-        return redirect()->route('admin.outputs');
+        $output = Output::find($id);
+
+        switch ($request->post('action_output')){
+            case 'separar':
+                $employee = Auth::user()->employee->id;
+                $output->selected_by = $employee;
+                $output->selected_date_time = date_create();
+                $output->status = 'S';
+                $output->save();
+                toastr()->success(' Pedido separado com sucesso.');
+                return redirect()->route('admin.outputs.request');
+            break;
+            case 'rota':
+                $employee = Auth::user()->employee->id;
+                $output->sent_by = $employee;
+                $output->sent_date_time = date_create();
+                $output->status = 'R';
+                $output->save();
+                toastr()->success('Pendido enviado para rota de entrega.');
+                return redirect()->route('admin.outputs.separated');
+            break;
+            case 'finalizar':
+
+                $employee = $request->post('recebido_por');
+                $output->received_by = $employee;
+                $output->received_notes = $request->post('recebido_anotacoes');
+                $output->received_date_time = date_create();
+                $output->status = 'E';
+                $output->save();
+
+                //RETIRANDO PRODUTOS DO ESTOQUE
+                foreach($output->productOutput as $pdtOut){
+                    $pdt = $pdtOut->product;
+                    $qtd_atual = ($pdt->amount + 0);
+                    $pdt->amount = ($qtd_atual - $pdtOut->amount) + 0;
+                    $pdt->save();
+                }
+
+
+                toastr()->success(' Pedido separado com sucesso.');
+                return redirect()->route('admin.outputs.route');
+            break;
+        }
+
+
     }
 
 

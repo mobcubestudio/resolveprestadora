@@ -3,8 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ActionPermission;
 use App\Models\Employee;
+use App\Models\Menu;
+use App\Models\MenuAttach;
+use App\Models\MenuPermission;
+use App\Models\SubmenuPermission;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class EmployeeController extends Controller
 {
@@ -53,6 +61,18 @@ class EmployeeController extends Controller
             'phone' => $request->input('phone')
 
         ]);
+
+        $senha = '123456';
+
+        $user = new User();
+        $user->employee()->associate($employee->id);
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->matricula = $request->input('registration');
+        $user->password = Hash::make($senha);
+        $user->save();
+
+
         toastr()->success('Funcionário cadastrado com sucesso');
 
         // Image Upload
@@ -180,6 +200,136 @@ class EmployeeController extends Controller
             //$requestImage->move(public_path('images/products'),$imageName);
             file_put_contents($file,)
         }*/
+
+    }
+
+    public function permission(Employee $employee)
+    {
+        $menus = Menu::all();
+        $user = $employee->user()->first();
+
+        //dd($user);
+
+        $arrMenu = array();
+
+        foreach ($menus as $menu){
+
+            //VRIFICA SE USUARIO JÁ TEM PERMISSÃO PARA O MENU
+            $count_menu = DB::table('menu_permissions')
+                            ->where('menu_id',$menu->id)
+                            ->where('user_id',$user->id)
+                            ->count();
+            $menu_checked = '';
+            if($count_menu>0) $menu_checked = 'checked';
+
+            $submenus = $menu->menuAttach()->get();
+
+            $arrSubmenu = array();
+            foreach ($submenus as $submenu){
+
+                //VRIFICA SE USUARIO JÁ TEM PERMISSÃO PARA O SUBMENU
+                $count_submenu = DB::table('submenu_permissions')
+                    ->where('menu_id',$menu->id)
+                    ->where('submenu_id',$submenu->id)
+                    ->where('user_id',$user->id)
+                    ->count();
+                $submenu_checked = '';
+                if($count_submenu>0) $submenu_checked = 'checked';
+
+                $menu_attach = MenuAttach::where('menu_id',$menu->id)->where('submenu_id',$submenu->id)->first();
+                $submenu_attaches = $menu_attach->submenuAttach()->get();
+
+                $arrAction = array();
+                foreach ($submenu_attaches as $submenu_attach){
+
+                    //VERIFICA SE USUARIO JÁ TEM PERMISSÃO PARA O AÇÃO
+                    $count_action = DB::table('action_permissions')
+                        ->where('menu_id',$menu->id)
+                        ->where('submenu_id',$submenu->id)
+                        ->where('action_id',$submenu_attach->id)
+                        ->where('user_id',$user->id)
+                        ->count();
+                    $action_checked = '';
+                    if($count_action>0) $action_checked = 'checked';
+
+                    $arrAction[] = [
+                                    'action_id'=>$submenu_attach->id,
+                                    'action_checked'=>$action_checked,
+                                    'action_nome'=>$submenu_attach->name];
+                }
+
+                $arrSubmenu[] = [
+                                    'submenu_id'=>$submenu->id,
+                                    'submenu_nome'=>$submenu->name,
+                                    'submenu_checked'=>$submenu_checked,
+                                    'actions'=>$arrAction];
+
+
+            }
+
+            $arrMenu[] = [
+                'menu_id'=>$menu->id,
+                'menu_nome'=>$menu->name,
+                'menu_checked' => $menu_checked,
+                'submenus'=>$arrSubmenu
+            ];
+        }
+
+        return view('admin.employee.permission',[
+            'menus_grid'=>$arrMenu,
+            'user_id' => $user->id
+        ]);
+    }
+
+
+    public function permissionApply(Request $request)
+    {
+        //ddd($request);
+
+        $user_id = $request->post('user_id');
+        $a ='';
+        DB::table('menu_permissions')->where('user_id',$user_id)->delete();
+        DB::table('submenu_permissions')->where('user_id',$user_id)->delete();
+        DB::table('action_permissions')->where('user_id',$user_id)->delete();
+        foreach ($request->post('menu_id') as $menu){
+
+
+
+            $menu_permission = new MenuPermission;
+            $menu_permission->menu_id = $menu;
+            $menu_permission->user_id = $user_id;
+            $menu_permission->save();
+
+
+            $submenu_field = "submenu_id_{$menu}";
+            if($request->has($submenu_field)) {
+                foreach ($request->post($submenu_field) as $submenu) {
+                    $submenu_permission = new SubmenuPermission;
+                    $submenu_permission->menu_id = $menu;
+                    $submenu_permission->submenu_id = $submenu;
+                    $submenu_permission->user_id = $user_id;
+                    $submenu_permission->save();
+
+
+                    $action_field = "action_id_" . $menu . "_" . $submenu;
+
+                    if ($request->has($action_field)) {
+                        foreach ($request->post($action_field) as $action) {
+                            $action_permission = new ActionPermission;
+                            $action_permission->menu_id = $menu;
+                            $action_permission->submenu_id = $submenu;
+                            $action_permission->action_id = $action;
+                            $action_permission->user_id = $user_id;
+                            $action_permission->save();
+                        }
+                    }
+                }
+            }
+
+
+
+        }
+        //dd($a);
 
     }
 }

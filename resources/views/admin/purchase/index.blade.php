@@ -88,11 +88,14 @@
 
 
                 <td class="text-center">
-                    <a class="icon-action" id="ver-produtos" id-purchase="{{$data->id}}" style="margin-right: 0em"  data-bs-toggle="tooltip" data-bs-placement="top" title="Ver produtos comprados">
+                    <!--a class="icon-action" id="ver-produtos" id-purchase="{{$data->id}}" style="margin-right: 0em"  data-bs-toggle="tooltip" data-bs-placement="top" title="Ver produtos comprados">
                         <svg class="bi" width="1.5em" height="1.5em" fill="currentColor">
                             <use xlink:href="{{asset('images/actions/bootstrap-icons.svg')}}#cart"></use>
                         </svg>
-                    </a>
+                    </a-->
+                    @php
+                        Tools::montaAcoes([$var=>$data]);
+                    @endphp
                 </th>
             </tr>
             @endforeach
@@ -131,7 +134,7 @@
             $(function () {
                $(document).on('click','#ver-produtos',function () {
                    $("#lista-produtos-comprados").html("");
-                   var id_purchase = $(this).attr('id-purchase');
+                   var id_purchase = $(this).attr('data-id');
                    var modal_products = $("#modal");
                    modal_products.modal('show');
 

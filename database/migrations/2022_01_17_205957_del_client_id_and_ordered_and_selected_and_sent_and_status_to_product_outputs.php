@@ -14,7 +14,7 @@ class DelClientIdAndOrderedAndSelectedAndSentAndStatusToProductOutputs extends M
     public function up()
     {
         Schema::table('product_outputs', function (Blueprint $table) {
-            /*$table->dropForeign('product_outputs_client_id_foreign');
+            $table->dropForeign('product_outputs_client_id_foreign');
             $table->dropColumn('client_id');
             $table->dropColumn('ordered_by');
             $table->dropColumn('date_time_order');
@@ -22,7 +22,7 @@ class DelClientIdAndOrderedAndSelectedAndSentAndStatusToProductOutputs extends M
             $table->dropColumn('date_time_selected');
             $table->dropColumn('sent_by');
             $table->dropColumn('date_time_sent');
-            $table->dropColumn('status');*/
+            $table->dropColumn('status');
         });
     }
 

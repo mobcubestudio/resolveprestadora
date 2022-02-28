@@ -2,6 +2,7 @@
 @section('content')
 
     @php
+        //dd(\Illuminate\Support\Facades\Auth::user()->name);
         $model = 'products';
         $var = 'product';
     @endphp
@@ -10,6 +11,7 @@
 
 <div class="container">
     <h1 class="pt-4 pb-4 text-center">Lista de Produtos</h1>
+    @include('admin.includes.busca-por')
     <table class="table table-hover table-striped table-responsive">
         <thead class="bg-primary text-white">
             <tr >
@@ -41,7 +43,7 @@
                 <td>{{$product->name}}</td>
                 <td class="text-center @if($product->amount < $product->amount_alert) quantidade-baixa fw-bold @endif">{{$product->amount}}</th>
                 <td class="text-center">
-                    <a class="icon-action" style="margin-right: 1em" href="{{asset('admin/produtos/form')}}" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver Relatório de: {{$product->name}}">
+                    <!--a class="icon-action" style="margin-right: 1em" href="{{asset('admin/produtos/form')}}" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver Relatório de: {{$product->name}}">
                         <svg class="bi" width="1.5em" height="1.5em" fill="currentColor">
                             <use xlink:href="{{asset('images/actions/bootstrap-icons.svg')}}#file-earmark-text"></use>
                         </svg>
@@ -55,7 +57,11 @@
                         <svg class="bi" width="1.5em" height="1.5em" fill="currentColor">
                             <use xlink:href="{{asset('images/actions/bootstrap-icons.svg')}}#trash-fill"></use>
                         </svg>
-                    </a>
+                    </a-->
+
+                @php
+                    Tools::montaAcoes([$var=>$product]);
+                @endphp
 
                 </th>
             </tr>

@@ -2,7 +2,10 @@
 @section('content')
 
 
-
+    @php
+        $model = 'products';
+        $var = 'product';
+    @endphp
 
 
 <div class="container">
@@ -39,16 +42,10 @@
                 <td>{{$product->name}}</td>
                 <td class="text-center @if($product->amount < $product->amount_alert) quantidade-baixa fw-bold @endif">{{$product->amount}}</th>
                 <td class="text-center">
-                    <a onclick="return confirm('Tem certeza que deseja restaurar o produto {{$product->name}}?')"
-                       class="icon-action" style="margin-right: 0em"
-                       href="{{route('admin.products.recycle',$product->id)}}"
-                       data-bs-toggle="tooltip" data-bs-placement="top" title="Restaurar: {{$product->name}}">
-                        <svg class="bi" width="1.5em" height="1.5em" fill="currentColor">
-                            <use xlink:href="{{asset('images/actions/bootstrap-icons.svg')}}#recycle"></use>
-                        </svg>
-                    </a>
-
-                </th>
+                    @php
+                      Tools::montaAcoes([$var=>$product]);
+                    @endphp
+                </td>
             </tr>
             @endforeach
         </tbody>

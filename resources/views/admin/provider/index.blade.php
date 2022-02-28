@@ -27,6 +27,7 @@ $image = false;
 
 <div class="container">
     <h1 class="pt-4 pb-4 text-center">Lista de {{ucfirst($name_plural)}}</h1>
+    @include('admin.includes.busca-por')
     <table class="table table-hover table-striped table-responsive">
         <thead class="bg-primary text-white">
             <tr >
@@ -75,23 +76,10 @@ $image = false;
 
 
                 <td class="text-center">
-                    <a class="icon-action" style="margin-right: 1em" href="{{asset("admin/$base_uri/form")}}" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver Relatório de: {{$data->name}}">
-                        <svg class="bi" width="1.5em" height="1.5em" fill="currentColor">
-                            <use xlink:href="{{asset('images/actions/bootstrap-icons.svg')}}#file-earmark-text"></use>
-                        </svg>
-                    </a>
-                    <a class="icon-action" style="margin-right: 1em" href="{{route("admin.$model.form.edit",["$var"=>$data])}}" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar: {{$data->name}}">
-                        <svg class="bi" width="1.5em" height="1.5em" fill="currentColor">
-                            <use xlink:href="{{asset('images/actions/bootstrap-icons.svg')}}#pencil-square"></use>
-                        </svg>
-                    </a>
-                    <a onclick="return confirm('Tem certeza que deseja mover {{$genre}} {{$name_singular}} {{$data->name}} para a lixeira?')" class="icon-action" style="margin-right: 0em" href="{{route("admin.$model.destroy",$data)}}" data-bs-toggle="tooltip" data-bs-placement="top" title="Excluir: {{$data->name}}">
-                        <svg class="bi" width="1.5em" height="1.5em" fill="currentColor">
-                            <use xlink:href="{{asset('images/actions/bootstrap-icons.svg')}}#trash-fill"></use>
-                        </svg>
-                    </a>
-
-                </th>
+                    @php
+                        Tools::montaAcoes([$var=>$data]);
+                    @endphp
+                </td>
             </tr>
             @endforeach
         </tbody>

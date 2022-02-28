@@ -217,7 +217,7 @@ class EmployeeController extends Controller
             $user->employee()->associate($employee->id);
             $user->name = $employee->name;
             $user->email = $employee->email;
-            $user->matricula = $employee->matricula;
+            $user->matricula = $employee->registration;
             $user->password = Hash::make($senha);
             $user->save();
         }

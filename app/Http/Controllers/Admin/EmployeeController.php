@@ -345,6 +345,8 @@ class EmployeeController extends Controller
 
         }
         //dd($a);
+        toastr()->success('Permissões Atualizadas com sucesso.');
+        return redirect()->route('admin.employees.permission',['employee'=>$request->post('user_id')]);
 
     }
 }

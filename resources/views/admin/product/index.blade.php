@@ -60,6 +60,7 @@
                     </a-->
 
                 @php
+                    use App\Classes\Tools;
                     Tools::montaAcoes([$var=>$product]);
                 @endphp
 

@@ -39,7 +39,7 @@ class Tools
 
 
             if($separa_parametros[0]!='busca'){
-                dd($separa_parametros);
+                //dd($separa_parametros);
                 $menu_find = Menu::where('asset',$separa_parametros[0])->get();
 
                 Session::put('menu_id',$menu_find->First()->id);

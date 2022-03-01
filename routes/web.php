@@ -115,6 +115,7 @@ Route::namespace('Site')->group(function (){
         //OUTPUTS
         Route::get('/admin/pedidos/listar','\App\Http\Controllers\Admin\OutputController@index')->name('admin.outputs');
         Route::get('/admin/pedidos/listar/relatorio','\App\Http\Controllers\Admin\OutputController@index')->name('admin.outputs.relatorio');
+        Route::get('/admin/pedidos/listar/ordem','\App\Http\Controllers\Admin\OutputController@ordem')->name('admin.outputs.ordem');
         Route::get('/admin/pedidos/solicitados','\App\Http\Controllers\Admin\OutputController@solicitados')->name('admin.outputs.request');
         Route::get('/admin/pedidos/separados','\App\Http\Controllers\Admin\OutputController@separados')->name('admin.outputs.separated');
         Route::get('/admin/pedidos/rota','\App\Http\Controllers\Admin\OutputController@rota')->name('admin.outputs.route');

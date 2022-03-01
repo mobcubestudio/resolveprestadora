@@ -12,8 +12,10 @@ use App\Models\ProductPurchase;
 use App\Models\Provider;
 use App\Models\Purchase;
 use App\Models\xProductPurchase;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class OutputController extends Controller
 {
@@ -221,5 +223,62 @@ class OutputController extends Controller
 
     }
 
+    public function ordem(Request $request)
+    {
+        $o=1;
+
+        $pedido = Output::find($request->get('output'))->first();
+        $cliente = $pedido->client->name;
+        $data_pedido = date_format(date_create($pedido->ordered_date_time),'d/m/Y H:i');
+        $data_separacao = date_format(date_create($pedido->selected_date_time),'d/m/Y H:i');
+        $pedido_numero = str_pad($request->get('output'),6,'0',STR_PAD_LEFT);
+
+
+
+        $pedidos = DB::table('products')
+            ->join('product_outputs','products.id','product_outputs.product_id')
+            ->join('outputs','product_outputs.output_id','outputs.id')
+            ->join('clients','outputs.client_id','clients.id')
+            ->select(
+                'outputs.status',
+                'outputs.ordered_date_time',
+                'outputs.selected_date_time',
+                'outputs.sent_date_time',
+                'outputs.received_date_time',
+                'outputs.ordered_by',
+                'outputs.selected_by',
+                'outputs.sent_by',
+                'outputs.received_by',
+                'outputs.received_notes',
+                'clients.name as cliente',
+                'products.name as produto',
+                'product_outputs.amount'
+            )
+            ->where('outputs.id',$request->get('output'))
+            ->orderBy('outputs.ordered_date_time','desc')
+            ->get();
+
+        //dd($saida);
+        if($o==1) {
+            $pdf = PDF::loadView('admin.output.ordem',[
+                'data_pedido'=>$data_pedido,
+                'data_separacao'=>$data_separacao,
+                'cliente'=>$cliente,
+                'pedido_numero'=>$pedido_numero,
+                'pedidos'=>$pedidos
+            ]);
+            return $pdf->setPaper('a4')->stream('ordem_' . $pedido_numero . '.pdf');
+        } else {
+            return view('admin.output.ordem',[
+                'data_pedido'=>$data_pedido,
+                'data_separacao'=>$data_separacao,
+                'cliente'=>$cliente,
+                'pedido_numero'=>$pedido_numero,
+                'pedidos'=>$pedidos
+            ]);
+        }
+
+
+    }
 
 }

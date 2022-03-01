@@ -191,6 +191,7 @@ class Tools
                 'on_click'=>$acao_original->on_click,
                 'url'=>$acao_original->route,
                 'href_disable'=>$acao_original->href_disable,
+                'target_blank'=>$acao_original->target_blank,
                 'identification'=>$acao_original->identification
             ];
         }
@@ -198,7 +199,9 @@ class Tools
         $acoes = ActionPermission::where('user_id',$user_id)->where('menu_id',$menu_id)->where('submenu_id',$submenu_id)->get();
         foreach ($acoes as $acao){
             $href = ($acoes_index[$acao->action_id]['href_disable'] == 'N') ? 'href="' . route("admin.$menu_model.{$acoes_index[$acao->action_id]['url']}",$var) . '"' : '';
-            echo '<a id="' . $acoes_index[$acao->action_id]['identification'] . '" class="icon-action ' . $acoes_index[$acao->action_id]['class'] . '" data-id="' . $var[$menu_class]->id . '" data-extra="' . $acoes_index[$acao->action_id]['extra'] . '" onclick="' . $acoes_index[$acao->action_id]['on_click'] . '" style="margin-right: 1em" ' . $href . ' data-bs-toggle="tooltip" data-bs-placement="top" title="' . $acoes_index[$acao->action_id]['nome'] . '">';
+            $target = ($acoes_index[$acao->action_id]['target_blank'] == 'S') ? 'target="_blank"' : '';
+
+            echo '<a id="' . $acoes_index[$acao->action_id]['identification'] . '" class="icon-action ' . $acoes_index[$acao->action_id]['class'] . '" data-id="' . $var[$menu_class]->id . '" data-extra="' . $acoes_index[$acao->action_id]['extra'] . '" onclick="' . $acoes_index[$acao->action_id]['on_click'] . '" style="margin-right: 1em" ' . $href . ' data-bs-toggle="tooltip" data-bs-placement="top" title="' . $acoes_index[$acao->action_id]['nome'] . '" ' . $target . '>';
             echo '<svg class="bi" width="1.5em" height="1.5em" fill="currentColor">';
             echo '<use xlink:href="' . asset('images/actions/bootstrap-icons.svg') . '#' . $acoes_index[$acao->action_id]['icon'] . '"></use>';
             echo '</svg>';

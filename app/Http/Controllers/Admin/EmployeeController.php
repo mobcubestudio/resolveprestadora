@@ -207,11 +207,9 @@ class EmployeeController extends Controller
     {
         $menus = Menu::all();
         $user = $employee->user()->first();
-        dd(count(User::where('employee_id',$employee->id)->get()));
+
         //VERIFICA SE JÁ EXISTE USUARIO PARA O FUNCIONÁRIO E CRIA SE NAO TIVER
         if(count(User::where('employee_id',$employee->id)->get())==0){
-
-
 
             $senha = '123456';
 

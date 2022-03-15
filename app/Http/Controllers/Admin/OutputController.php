@@ -180,7 +180,7 @@ class OutputController extends Controller
 
         switch ($request->post('action_output')){
             case 'separar':
-                $employee = Auth::user()->employee->id;
+                $employee = Auth::user()->employee_id;
                 $output->selected_by = $employee;
                 $output->selected_date_time = date_create();
                 $output->status = 'S';
@@ -189,7 +189,7 @@ class OutputController extends Controller
                 return redirect()->route('admin.outputs.request');
             break;
             case 'rota':
-                $employee = Auth::user()->employee->id;
+                $employee = Auth::user()->employee_id;
                 $output->sent_by = $employee;
                 $output->sent_date_time = date_create();
                 $output->status = 'R';

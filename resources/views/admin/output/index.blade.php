@@ -31,6 +31,7 @@
     if ($rota=='admin.outputs.delivered'){
         $heads_table = [
             //['Foto','col text-center', 'width: 100px'],
+            ['#','col',null,'text-center'],
             ['Data','col',null,'text-start'],
             ['Cliente','col',null,'text-start'],
             ['Responsável','col',null,'text-start'],
@@ -40,6 +41,7 @@
     } else {
         $heads_table = [
             //['Foto','col text-center', 'width: 100px'],
+            ['#','col',null,'text-center'],
             ['Data','col',null,'text-start'],
             ['Cliente','col',null,'text-start'],
             ['Responsável','col',null,'text-start'],
@@ -88,6 +90,7 @@
 
                     if ($rota=='admin.outputs.delivered'){
                       $values = [
+                      		     $data->id,
                                     date_format($data->{$campo_data},'d/m/y H:i'),
                                     $data->client->name,
                                     $responsavel,
@@ -96,6 +99,7 @@
                                  ];
                     } else {
                         $values = [
+                        	     $data->id,
                                     date_format($data->{$campo_data},'d/m/y H:i'),
                                     $data->client->name,
                                     $responsavel,

@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Output extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'ordered_by',
@@ -22,7 +24,8 @@ class Output extends Model
         'ordered_date_time',
         'selected_date_time',
         'sent_date_time',
-        'received_date_time'
+        'received_date_time',
+        'deleted_at'
     ];
 
     public function client(){

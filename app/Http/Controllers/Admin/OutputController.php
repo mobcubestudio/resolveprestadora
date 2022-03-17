@@ -281,4 +281,42 @@ class OutputController extends Controller
 
     }
 
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Output $output)
+    {
+        //dd($data);
+        $output->delete();
+        toastr()->success('Pedido #' . $output->id . ' movido para a lixeira.');
+        return redirect()->route('admin.'.$this->route_name);
+    }
+
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function trash()
+    {
+        return view ('admin.'.$this->view_name.'.trash',[
+            'datas' => Output::onlyTrashed()->get()
+        ]);
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function recycle($id)
+    {
+        //dd($id);
+        $data = Output::onlyTrashed()->findOrFail($id);
+        $data->restore();
+        toastr()->success('Pedido #' . $data->id.' restaurado com sucesso');
+        return redirect()->route('admin.'.$this->route_name);
+    }
+
 }

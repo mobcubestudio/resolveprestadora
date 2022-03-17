@@ -120,10 +120,12 @@ Route::namespace('Site')->group(function (){
         Route::get('/admin/pedidos/separados','\App\Http\Controllers\Admin\OutputController@separados')->name('admin.outputs.separated');
         Route::get('/admin/pedidos/rota','\App\Http\Controllers\Admin\OutputController@rota')->name('admin.outputs.route');
         Route::get('/admin/pedidos/entregues','\App\Http\Controllers\Admin\OutputController@entregues')->name('admin.outputs.delivered');
-        //Route::get('/admin/pedidos/lixo','\App\Http\Controllers\Admin\OutputController@trash')->name('admin.outputs.trash');
+        Route::get('/admin/pedidos/lixo','\App\Http\Controllers\Admin\OutputController@trash')->name('admin.outputs.trash');
         Route::get('/admin/pedidos/form','\App\Http\Controllers\Admin\OutputController@create')->name('admin.outputs.form.create');
         Route::post('/admin/pedidos/create','\App\Http\Controllers\Admin\OutputController@store')->name('admin.outputs.action.create');
         Route::post('/admin/pedidos/action','\App\Http\Controllers\Admin\OutputController@action')->name('admin.outputs.action');
+        Route::get('/admin/pedidos/destroy/{output}','\App\Http\Controllers\Admin\OutputController@destroy')->name('admin.outputs.destroy');
+        Route::get('/admin/pedidos/recycle/{output}','\App\Http\Controllers\Admin\OutputController@recycle')->name('admin.outputs.recycle');
 
         //Route::get('/admin/compras/recycle/{id}','\App\Http\Controllers\Admin\PurchaseController@recycle')->name('admin.purchases.recycle');
         //Route::get('/admin/compras/destroy/{data}','\App\Http\Controllers\Admin\PurchaseController@destroy')->name('admin.purchases.destroy');

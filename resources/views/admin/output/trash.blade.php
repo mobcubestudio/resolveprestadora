@@ -3,12 +3,12 @@
 
 
     @php
-        $model = 'providers';
-        $var = 'provider';
-        $base_uri = 'fornecedores';
+        $model = 'outputs';
+        $var = 'output';
+        $base_uri = 'pedidos';
         $genre = 'o';
-        $name_singular = 'fornecedor';
-        $name_plural = 'fornecedores';
+        $name_singular = 'pedido';
+        $name_plural = 'pedidos';
         $image = false;
     @endphp
 
@@ -21,8 +21,9 @@
         */
         $heads_table = [
             //['Foto','col text-center', 'width: 100px'],
-            ['Nome','col',null],
-            ['CNPJ','col',null]
+            ['#','col',null],
+            ['Data','col',null],
+            ['Cliente','col',null]
         ];
     @endphp
 
@@ -52,7 +53,11 @@
             <tr class="align-middle">
 
                 @php
-                    $values = [ $data->name, $data->cnpj ];
+                    $values = [
+                                $data->id,
+                                date_format($data->ordered_date_time,'d/m/y'),
+                                $data->client->name
+                                ];
                 @endphp
 
                 @if($image==true)

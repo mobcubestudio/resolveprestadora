@@ -13,15 +13,16 @@ class Employee extends Model
 
     protected $fillable = [
         'role_id',
-      'name',
+        'name',
         'registration',
-      'cpf',
-      'rg',
-      'address',
-      'birth_date',
-      'marital_status',
-      'email',
-        'phone'
+        'cpf',
+        'rg',
+        'address',
+        'birth_date',
+        'marital_status',
+        'email',
+        'phone',
+        'epis'
     ];
 
     protected $dates = [

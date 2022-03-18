@@ -352,4 +352,18 @@ class EmployeeController extends Controller
         return redirect()->route('admin.employees.permission',['employee'=>$employee->employee_id]);
 
     }
+
+
+    public function action(Request $request){
+        $id = $request->post('id');
+
+        $employee = Employee::find($id);
+
+        $employee->epis = $request->post('epis');
+        $employee->save();
+
+        toastr()->success('Lista de Epis atualizada');
+        return redirect()->route('admin.employees');
+
+    }
 }

@@ -58,6 +58,7 @@ Route::namespace('Site')->group(function (){
         Route::post('ajax/produtos_comprados',['as'=>'admin.ajax.produtos_comprados', 'uses'=>'\App\Http\Controllers\Admin\AjaxCotroller@produtosComprados']);
         Route::post('ajax/separar_produtos_lista',['as'=>'admin.ajax.separar_produtos.lista', 'uses'=>'\App\Http\Controllers\Admin\AjaxCotroller@separarProdutosLista']);
         Route::post('ajax/separar_produtos_submit',['as'=>'admin.ajax.separar_produtos.submit', 'uses'=>'\App\Http\Controllers\Admin\AjaxCotroller@separarProdutosSubmit']);
+        Route::post('ajax/funcionarioEpis',['as'=>'admin.ajax.funcionario.epis', 'uses'=>'\App\Http\Controllers\Admin\AjaxCotroller@carregaEpis']);
 
         //PRODUTOS
         Route::get('/admin/produtos/listar','\App\Http\Controllers\Admin\ProductController@index')->name('admin.products');
@@ -81,6 +82,7 @@ Route::namespace('Site')->group(function (){
         Route::get('/admin/funcionarios/destroy/{employee}','\App\Http\Controllers\Admin\EmployeeController@destroy')->name('admin.employees.destroy');
         Route::get('/admin/funcionarios/listar/permissoes/{employee}','\App\Http\Controllers\Admin\EmployeeController@permission')->name('admin.employees.permission');
         Route::post('/admin/funcionarios/permissoes/do','\App\Http\Controllers\Admin\EmployeeController@permissionApply')->name('admin.employees.permission.do');
+        Route::post('/admin/funcionarios/action','\App\Http\Controllers\Admin\EmployeeController@action')->name('admin.employees.action');
 
 
 

@@ -78,4 +78,90 @@
     </table>
 
 
+
+
+
+
+
+
+
+
+
+
+    <!-- MODAL -->
+    <div id="modal" class="modal fade bd-example-modal-lg" data-bs-backdrop="static" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content p-3">
+                <h3 class="text-center text-info mb-3">EPIS</h3>
+                <form id="modal-form" action="{{route("admin.$model.action")}}" method="post">
+                    @csrf
+                    <textarea class="description" name="epis" id="epis" style="width: 100%"></textarea>
+                    <input type="hidden" name="id" id="id">
+
+
+
+                    <div class="container text-end">
+                        <button id="modal-close" type="button" class="btn btn-secondary">Fechar</button>
+                        <button id="modal-submit" type="submit" id-order="" class="btn btn-info">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+@endsection
+    @section('footer_js')
+        <script src="https://cdn.tiny.cloud/1/c0gypqbhocby1mgj3twaa7lastoqu5egw8ov80md4acaaail/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+        <script>
+            tinymce.init({
+                selector:'textarea.description',
+                height: 500,
+                menubar: false
+            });
+        </script>
+        <script>
+            $(function () {
+
+                //ENVIA DADOS
+                $(document).on("submit","#modal-form",function () {
+                    fecha_modal();
+                    return true;
+                });
+
+                //FECHA MODAL
+                $(document).on("click","#modal-close",function () {
+                    $("#modal-submit").attr('id-order',null);
+                    var modal_products = $("#modal");
+                    modal_products.modal('hide');
+                });
+
+
+                $(document).on('click','#ver-epis',function () {
+
+                    let _token   = $('meta[name="csrf-token"]').attr('content');
+                    var id = $(this).attr('data-id');
+                    var modal_products = $("#modal");
+                    modal_products.modal('show');
+
+                    $("#id").val(id);
+                    $("#modal-submit").attr('id-order',id);
+
+                    $.ajax({
+                        url: "{{route('admin.ajax.funcionario.epis')}}",
+                        cache: false,
+                        type: 'POST',
+                        data: {
+                            id:id,
+                            _token: _token
+                        },
+                        success: function (data) {
+                            tinyMCE.activeEditor.setContent(data);
+                            //$("#epis").text('data');
+                            console.log(data);
+                        }
+                    });
+                });
+            });
+        </script>
 @endsection

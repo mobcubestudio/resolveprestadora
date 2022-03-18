@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Employee;
 use App\Models\Output;
 use App\Models\Product;
 use App\Models\ProductOutput;
@@ -58,5 +59,17 @@ class AjaxCotroller extends Controller
     public function separarProdutosSubmit(Request $request){
 
 
+    }
+
+
+    /**
+     * Retorna o texto dos EPIs do funcionario
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function carregaEpis(Request $request)
+    {
+        $funcionario = Employee::find($request->only('id'))->first();
+         return response()->json($funcionario->epis);
     }
 }

@@ -17,7 +17,7 @@ class HttpsProtocol
      */
     public function handle(Request $request, Closure $next)
     {
-        dd(App::environment('production'));
+        //dd(App::environment('production'));
         if(App::environment('production')){
 
             if(!$request->secure()){

@@ -16,7 +16,7 @@ class HttpsProtocol
      */
     public function handle(Request $request, Closure $next)
     {
-        dd(APP_ENV);
+        dd('APP_ENV');
         if(env('APP_ENV')==='production'){
 
             if(!$request->secure()){

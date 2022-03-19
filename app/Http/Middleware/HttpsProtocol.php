@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class HttpsProtocol
 {
@@ -16,7 +17,7 @@ class HttpsProtocol
      */
     public function handle(Request $request, Closure $next)
     {
-        dd(env('APP_ENV'));
+        dd(App::environment('local'));
         if(env('APP_ENV')==='production'){
 
             if(!$request->secure()){

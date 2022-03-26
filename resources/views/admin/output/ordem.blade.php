@@ -47,6 +47,13 @@
             <b>RECEBIDO POR:</b>
         </td>
     </tr>
+    @if($funcionario)
+    <tr>
+        <td colspan="2">
+            <b>EPI PARA:</b> {{ $funcionario }}
+        </td>
+    </tr>
+    @endif
 </table>
 
 

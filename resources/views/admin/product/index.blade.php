@@ -69,5 +69,8 @@
         </tbody>
     </table>
 
+    <!-- PAGINACAO -->
+    {{$products->links('layouts.pagination')}}
+
 
 @endsection

@@ -102,6 +102,9 @@
         </tbody>
     </table>
 
+    <!-- PAGINACAO -->
+    {{$datas->links('layouts.pagination')}}
+
 
 
     <div id="modal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">

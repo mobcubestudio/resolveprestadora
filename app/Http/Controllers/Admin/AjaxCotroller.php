@@ -69,7 +69,7 @@ class AjaxCotroller extends Controller
      */
     public function carregaEpis(Request $request)
     {
-        $funcionario = Employee::find($request->only('id'))->first();
+
          return response()->json($funcionario->epis);
     }
 }

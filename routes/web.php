@@ -83,6 +83,7 @@ Route::namespace('Site')->group(function (){
         Route::get('/admin/funcionarios/listar/permissoes/{employee}','\App\Http\Controllers\Admin\EmployeeController@permission')->name('admin.employees.permission');
         Route::post('/admin/funcionarios/permissoes/do','\App\Http\Controllers\Admin\EmployeeController@permissionApply')->name('admin.employees.permission.do');
         Route::post('/admin/funcionarios/action','\App\Http\Controllers\Admin\EmployeeController@action')->name('admin.employees.action');
+        Route::get('/admin/funcionarios/listar/epis','\App\Http\Controllers\Admin\EmployeeController@epis')->name('admin.employees.epis');
 
 
 

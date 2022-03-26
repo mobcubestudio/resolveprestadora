@@ -35,7 +35,7 @@ class OutputController extends Controller
      */
     public function index()
     {
-        $data = Output::all()->sortByDesc('created_at');
+        $data = Output::orderBy('created_at','desc')->paginate(15);
         //dd($data->keys('id'));
         return view("admin.$this->view_name.index",[
             'datas' => $data,
@@ -52,7 +52,7 @@ class OutputController extends Controller
      */
     public function solicitados()
     {
-        $data = Output::where('status','P')->get()->sortByDesc('created_at');
+        $data = Output::where('status','P')->orderBy('created_at','desc')->paginate(15);
         //dd($data->keys('id'));
         return view("admin.$this->view_name.index",[
             'datas' => $data,
@@ -69,7 +69,7 @@ class OutputController extends Controller
      */
     public function rota()
     {
-        $data = Output::where('status','R')->get()->sortByDesc('created_at');
+        $data = Output::where('status','R')->orderBy('created_at','desc')->paginate(15);
         //dd($data->keys('id'));
         return view("admin.$this->view_name.index",[
             'datas' => $data,
@@ -86,7 +86,7 @@ class OutputController extends Controller
      */
     public function separados()
     {
-        $data = Output::where('status','S')->get()->sortByDesc('created_at');
+        $data = Output::where('status','S')->orderBy('created_at','desc')->paginate(15);
         //dd($data->keys('id'));
         return view("admin.$this->view_name.index",[
             'datas' => $data,
@@ -103,7 +103,7 @@ class OutputController extends Controller
      */
     public function entregues()
     {
-        $data = Output::where('status','E')->get()->sortByDesc('created_at');
+        $data = Output::where('status','E')->orderBy('created_at','desc')->paginate(15);
         //dd($data->keys('id'));
         return view("admin.$this->view_name.index",[
             'datas' => $data,
@@ -141,6 +141,8 @@ class OutputController extends Controller
         //CADASTRANDO PEDIDO
         $output = new Output();
         $output->ordered_by = Auth::user()->employee_id;
+        $output->is_epi = $request->post('is_epi');
+        $output->epi_employee_id = $request->post('epi_employee_id');
         $output->ordered_date_time = date_create();
         $output->status = 'P';
         $output->client()->associate($request->post('client_id'));
@@ -223,15 +225,25 @@ class OutputController extends Controller
 
     }
 
+    /**
+     * Gera PDF da Ordem de serviço
+     * @param Request $request (ID OUTPUT)
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     */
     public function ordem(Request $request)
     {
         $o=1;
 
-        $pedido = Output::find($request->get('output'))->first();
+        $pedido = Output::where('id','=',$request->get('output'))->first();
         $cliente = $pedido->client->name;
         $data_pedido = date_format(date_create($pedido->ordered_date_time),'d/m/Y H:i');
         $data_separacao = date_format(date_create($pedido->selected_date_time),'d/m/Y H:i');
         $pedido_numero = str_pad($request->get('output'),6,'0',STR_PAD_LEFT);
+
+
+
+        $funcionario = ($pedido->is_epi == 1) ? Employee::where('id','=',$pedido->epi_employee_id)->first()->name : '';
+
 
 
 
@@ -265,7 +277,9 @@ class OutputController extends Controller
                 'data_separacao'=>$data_separacao,
                 'cliente'=>$cliente,
                 'pedido_numero'=>$pedido_numero,
-                'pedidos'=>$pedidos
+                'pedidos'=>$pedidos,
+                'funcionario'=>$funcionario
+
             ]);
             return $pdf->setPaper('a4')->stream('ordem_' . $pedido_numero . '.pdf');
         } else {
@@ -274,7 +288,8 @@ class OutputController extends Controller
                 'data_separacao'=>$data_separacao,
                 'cliente'=>$cliente,
                 'pedido_numero'=>$pedido_numero,
-                'pedidos'=>$pedidos
+                'pedidos'=>$pedidos,
+                'funcionario'=>$funcionario
             ]);
         }
 

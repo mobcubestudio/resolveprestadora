@@ -105,5 +105,8 @@
         </tbody>
     </table>
 
+    <!-- PAGINACAO -->
+    {{$datas->links('layouts.pagination')}}
+
 
 @endsection

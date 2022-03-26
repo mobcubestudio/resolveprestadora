@@ -17,7 +17,10 @@ class Output extends Model
         'sent_by',
         'received_by',
         'received_notes',
-        'status'
+        'status',
+        'is_epi',
+        'epi_employee_id'
+
     ];
 
     protected $dates = [
@@ -39,6 +42,12 @@ class Output extends Model
     public function getStatusAttribute(){
         $statusName = ['P'=>'Solicitado','S'=>'Separado','E'=>'Entregue','R'=>'Rota de Entrega'];
         return $statusName[$this->attributes['status']];
+    }
+
+    public function getIsEpiImgAttribute(){
+        $funcionario = ($this->attributes['is_epi'] == 1) ? Employee::where('id','=',$this->attributes['epi_employee_id'])->first()->name : '';
+        $epiStatus = [0=>'',1=>'<img title="' . $funcionario . '" src="' . asset('images/epi.png') . '" />'];
+        return $epiStatus[$this->attributes['is_epi']];
     }
 
 }

@@ -19,6 +19,8 @@
 
         $id = null;
         $client_id = null;
+        $is_epi = null;
+        $epi_employee_id = null;
 
         $img_thumb = asset("images/produto-sem-foto.jpg");
 
@@ -34,6 +36,8 @@
 
                 $id = $data->id;
                 $client_id = $data->client_id;
+                $is_epi = $data->is_epi;
+                $epi_employee_id = $data->epi_employee_id;
                 $employe_id = $data->employee_id;
 
 
@@ -66,22 +70,24 @@
                     * 7 - lista de resultados possiveis em caso de (5= select)
                     */
                     $fields = [
-                        ['Cliente',true,'client_id',null,null,'select',$client_id,$list_clients]
+                        ['Cliente',true,'client_id',null,null,'select',$client_id,$list_clients,''],
+                        ['Epi',true,'is_epi',null,null,'select-manual',$is_epi,[0=>'Não',1=>'Sim'],''],
+                        ['Funcionário',false,'epi_employee_id',null,null,'select',$epi_employee_id,$list_employees,'d-none'],
                     ];
                 @endphp
 
 
 
                 @foreach($fields as $field)
-                    @if($field[4]=='text')
-                        <div class="mb-3">
+                    @if($field[5]=='text')
+                        <div class="mb-3  {{$field[8]}}">
                             <label for="{{$field[2]}}" class="form-label">{{$field[0]}}@if($field[1]==true)*@endif</label>
                             <input type="{{$field[4]}}" @if($field[3]!=null)data-mask="{{$field[3]}}" @if($field[5]==true) data-mask-reverse="true" @endif @endif @if($field[1]==true) required @endif name="{{$field[2]}}" class="form-control" id="{{$field[2]}}" aria-describedby="{{$field[2]}}Help" value="{{$field[6]}}">
                         </div>
 
 
                     @elseif($field[5]=='select')
-                        <div class="mb-3">
+                        <div class="mb-3  {{$field[8]}}" id="bloco-{{$field[2]}}">
                             <label for="{{$field[2]}}" class="form-label">{{$field[0]}}@if($field[1]==true)*@endif</label>
                             <select @if($field[1]==true) required @endif id="{{$field[2]}}" name="{{$field[2]}}" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
                                 <option value="">Selecione</option>
@@ -91,6 +97,21 @@
                                 @endforeach
                             </select>
                         </div>
+
+
+                    @elseif($field[5]=='select-manual')
+                        <div class="mb-3 {{$field[8]}}">
+                            <label for="{{$field[2]}}" class="form-label">{{$field[0]}}@if($field[1]==true)*@endif</label>
+                            <select @if($field[1]==true) required @endif id="{{$field[2]}}" name="{{$field[2]}}" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                                <option @if($field[6]==null) selected @endif value="">Selecione</option>
+                                @foreach(array_keys($field[7]) as $list_data[$field[2]])
+                                    <option @if($field[6] && $field[6]==$list_data[$field[2]]) selected @endif
+                                    value="{{$list_data[$field[2]]}}">{{$field[7][$list_data[$field[2]]]}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+
                     @endif
                 @endforeach
 
@@ -211,6 +232,21 @@
                if(confirm("Tem certeza que deseja excluir o produto?")){
                    $("#line_"+$(this).attr("line")).remove();
                }
+
+            });
+
+
+            $(document).on("change","#is_epi",function ()
+            {
+                var valor = $(this).val();
+
+                if(valor==1){
+                    $("#epi_employee_id").attr('required',true);
+                    $("#bloco-epi_employee_id").removeClass('d-none');
+                } else {
+                    $("#epi_employee_id").attr('required',false);
+                    $("#bloco-epi_employee_id").addClass('d-none');
+                }
 
             });
         });

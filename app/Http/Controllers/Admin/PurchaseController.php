@@ -29,7 +29,7 @@ class PurchaseController extends Controller
      */
     public function index()
     {
-        $data = Purchase::with('employee')->orderBy('created_at','desc')->get();
+        $data = Purchase::with('employee')->orderBy('created_at','desc')->paginate(15);
 //dd($data);
         return view("admin.$this->view_name.index",[
             'datas' => $data

@@ -45,7 +45,8 @@
             ['Data','col',null,'text-start'],
             ['Cliente','col',null,'text-start'],
             ['Responsável','col',null,'text-start'],
-            ['Status','col',null,'text-start']
+            ['Status','col',null,'text-start'],
+            ['','col',null,'text-start']
         ];
     }
 @endphp
@@ -104,6 +105,7 @@
                                     $data->client->name,
                                     $responsavel,
                                     $data->status,
+                                    $data->is_epi_img
                                  ];
                     }
 
@@ -127,7 +129,7 @@
                 $l = 0;
                 @endphp
                 @foreach($values as $value)
-                    <td class="{{$heads_table[$l][3]}}">{{$value}}</td>
+                    <td class="{{$heads_table[$l][3]}}">{!! $value !!}</td>
                     @php $l++; @endphp
                 @endforeach
 
@@ -146,8 +148,12 @@
                 </th>
             </tr>
             @endforeach
+
         </tbody>
     </table>
+
+    {{$datas->links('layouts.pagination')}}
+
 
 
 

@@ -13,6 +13,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class EmployeeController extends Controller
 {
@@ -364,6 +365,57 @@ class EmployeeController extends Controller
 
         toastr()->success('Lista de Epis atualizada');
         return redirect()->route('admin.employees');
+
+    }
+
+
+
+
+    public function epis(Request $request)
+    {
+        $o=1;
+
+        $funcionario = Employee::where('id','=',$request->get('employee'))->first()->name;
+
+
+        $pedidos = DB::table('products')
+            ->join('product_outputs','products.id','product_outputs.product_id')
+            ->join('outputs','product_outputs.output_id','outputs.id')
+            ->join('clients','outputs.client_id','clients.id')
+            ->select(
+                'outputs.status',
+                'outputs.ordered_date_time',
+                'outputs.selected_date_time',
+                'outputs.sent_date_time',
+                'outputs.received_date_time',
+                'outputs.ordered_by',
+                'outputs.selected_by',
+                'outputs.sent_by',
+                'outputs.received_by',
+                'outputs.received_notes',
+                'clients.name as cliente',
+                'products.name as produto',
+                'product_outputs.amount'
+            )
+            ->where('outputs.epi_employee_id',$request->get('employee'))
+            ->orderBy('outputs.created_at','desc')
+            ->get();
+
+        //dd($saida);
+        if($o==1) {
+            $pdf = PDF::loadView('admin.employee.epis',[
+                'pedidos'=>$pedidos,
+                'funcionario'=>$funcionario
+
+            ]);
+            return $pdf->setPaper('a4')->stream('epis_' . $funcionario . '.pdf');
+        } else {
+            return view('admin.employee.epis',[
+                'pedidos'=>$pedidos,
+                'funcionario'=>$funcionario
+            ]);
+        }
+
 
     }
 }

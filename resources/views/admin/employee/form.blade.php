@@ -76,7 +76,7 @@
 
                 <div class="mb-3">
                     <label for="amount" class="form-label">Matrícula*</label>
-                    <input type="text" data-mask="0000000" required name="registration" class="form-control" id="registration" aria-describedby="registrationHelp" value="{{$registration}}">
+                    <input type="text" data-mask="0000000000" required name="registration" class="form-control" id="registration" aria-describedby="registrationHelp" value="{{$registration}}">
                 </div>
 
                 <div class="mb-3">

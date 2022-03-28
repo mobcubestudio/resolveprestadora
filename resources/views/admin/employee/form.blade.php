@@ -34,7 +34,7 @@
                 $cpf = $employee->cpf;
                 $rg = $employee->rg;
                 $address = $employee->address;
-                $birth_date = date_format(date_create($employee->birth_date),'d/m/Y');
+                $birth_date = ($employee->birth_date) ?  date_format(date_create($employee->birth_date),'d/m/Y') : null;
                 $marital_status = $employee->marital_status;
                 $email = $employee->email;
                 $phone = $employee->phone;
@@ -57,7 +57,7 @@
                     <input type="hidden" name="id" value="{{$id}}">
                 @endif
                 <div class="mb-3">
-                    <label for="amount_alert" class="form-label">Função</label>
+                    <label for="amount_alert" class="form-label">Função*</label>
                     <select required id="role_id" name="role_id" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
                         <option value="">Selecione</option>
                         <option @if($role_id==1) selected @endif value="1">Diretor</option>
@@ -90,18 +90,18 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="amount_alert" class="form-label">RG*</label>
-                    <input type="text" required name="rg" class="form-control" id="rg" aria-describedby="rgHelp" value="{{$rg}}">
+                    <label for="amount_alert" class="form-label">RG</label>
+                    <input type="text" name="rg" class="form-control" id="rg" aria-describedby="rgHelp" value="{{$rg}}">
                 </div>
 
                 <div class="mb-3">
-                    <label for="amount_alert" class="form-label">Endereço*</label>
-                    <input type="text" required name="address" class="form-control" id="address" aria-describedby="addressHelp" value="{{$address}}">
+                    <label for="amount_alert" class="form-label">Endereço</label>
+                    <input type="text" name="address" class="form-control" id="address" aria-describedby="addressHelp" value="{{$address}}">
                 </div>
 
                 <div class="mb-3">
-                    <label for="amount_alert" class="form-label">Data de Nascimento*</label>
-                    <input type="text" required name="birth_date" data-mask="00/00/0000" class="form-control" id="birth_date" aria-describedby="birth_dateHelp" value="{{$birth_date}}">
+                    <label for="amount_alert" class="form-label">Data de Nascimento</label>
+                    <input type="text" name="birth_date" data-mask="00/00/0000" class="form-control" id="birth_date" aria-describedby="birth_dateHelp" value="{{$birth_date}}">
                 </div>
 
                 <div class="mb-3">

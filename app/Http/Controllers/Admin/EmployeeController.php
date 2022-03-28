@@ -48,6 +48,7 @@ class EmployeeController extends Controller
     public function store(Request $request)
     {
         //dd($request);
+        $data_nasc = ($request->input('birth_date') != '') ? date_format(date_create_from_format('d/m/Y',$request->input("birth_date")),'Y-m-d') : null;
 
         $employee = Employee::create([
             'role_id' => $request->input('role_id'),
@@ -56,7 +57,7 @@ class EmployeeController extends Controller
             'cpf' => $request->input('cpf'),
             'rg' => $request->input('rg'),
             'address' => $request->input('address'),
-            'birth_date' =>  date_format(date_create_from_format('d/m/Y',$request->input("birth_date")),'Y-m-d'),
+            'birth_date' =>  $data_nasc,
             'marital_status' => $request->input('marital_status'),
             'email' => $request->input('email'),
             'phone' => $request->input('phone')
@@ -105,6 +106,8 @@ class EmployeeController extends Controller
         $id = $request->get("id");
         $employee = Employee::find($id);
 
+        $data_nasc = ($request->input('birth_date') != '') ? date_format(date_create_from_format('d/m/Y',$request->input("birth_date")),'Y-m-d') : null;
+
         //dd($id);
         $employee->role_id = $request->input("role_id");
         $employee->registration = $request->input("registration");
@@ -112,7 +115,7 @@ class EmployeeController extends Controller
         $employee->cpf = $request->input("cpf");
         $employee->rg = $request->input("rg");
         $employee->address = $request->input("address");
-        $employee->birth_date = date_format(date_create_from_format('d/m/Y',$request->input("birth_date")),'Y-m-d');
+        $employee->birth_date = $data_nasc;
         $employee->marital_status = $request->input("marital_status");
         $employee->email = $request->input("email");
         $employee->phone = $request->input("phone");

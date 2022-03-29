@@ -296,6 +296,102 @@ class OutputController extends Controller
 
     }
 
+    /**
+     * Gera PDF da Ordem de serviço
+     * @param Request $request (ID OUTPUT)
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     */
+    public function relatorio(Request $request)
+    {
+        $o=1;
+
+        $pedido = Output::where('id','=',$request->get('output'))->first();
+        $cliente = $pedido->client->name;
+        $data_pedido = date_format(date_create($pedido->ordered_date_time),'d/m/Y H:i');
+        $data_separacao = ($pedido->selected_date_time) ? date_format(date_create($pedido->selected_date_time),'d/m/Y H:i') : '';
+        $data_rota = ($pedido->sent_date_time) ? date_format(date_create($pedido->sent_date_time),'d/m/Y H:i') : '';
+        $data_entrega = ($pedido->received_date_time) ? date_format(date_create($pedido->received_date_time),'d/m/Y H:i') : '';
+
+        $pedido_numero = str_pad($request->get('output'),6,'0',STR_PAD_LEFT);
+
+        //RESPONSAVEIS
+        $pedido_responsavel = Employee::find($pedido->ordered_by)->name;
+        $separacao_responsavel = ($pedido->selected_by!=null) ? Employee::find($pedido->selected_by)->name : 'AGUARDANDO...';
+        $rota_responsavel = ($pedido->sent_by != null) ? Employee::find($pedido->sent_by)->name : 'AGUARDANDO...';
+
+
+
+        if($pedido->status == 'Entregue'){
+            $entrega_responsavel = ($pedido->received_by) ? Employee::find($pedido->received_by)->name . '<br />' : '';
+            $entrega_anotacao = ($pedido->received_notes) ? $pedido->received_notes : 'NADA FOI ANOTADO.';
+        } else {
+            $entrega_responsavel = 'AGUARDANDO...';
+            $entrega_anotacao = '';
+        }
+
+
+
+
+        $funcionario = ($pedido->is_epi == 1) ? Employee::where('id','=',$pedido->epi_employee_id)->first()->name : '';
+
+
+
+
+        $pedidos = DB::table('products')
+            ->join('product_outputs','products.id','product_outputs.product_id')
+            ->join('outputs','product_outputs.output_id','outputs.id')
+            ->join('clients','outputs.client_id','clients.id')
+            ->select(
+                'outputs.status',
+                'outputs.ordered_date_time',
+                'outputs.selected_date_time',
+                'outputs.sent_date_time',
+                'outputs.received_date_time',
+                'outputs.ordered_by',
+                'outputs.selected_by',
+                'outputs.sent_by',
+                'outputs.received_by',
+                'outputs.received_notes',
+                'clients.name as cliente',
+                'products.name as produto',
+                'product_outputs.amount'
+            )
+            ->where('outputs.id',$request->get('output'))
+            ->orderBy('outputs.ordered_date_time','desc')
+            ->get();
+
+        //dd($saida);
+        if($o==1) {
+            $pdf = PDF::loadView('admin.output.relatorio',[
+                'data_pedido'=>$data_pedido,
+                'data_separacao'=>$data_separacao,
+                'data_rota'=>$data_rota,
+                'data_entrega'=>$data_entrega,
+                'cliente'=>$cliente,
+                'pedido_numero'=>$pedido_numero,
+                'pedidos'=>$pedidos,
+                'pedido_responsavel'=>$pedido_responsavel,
+                'separacao_responsavel'=>$separacao_responsavel,
+                'rota_responsavel'=>$rota_responsavel,
+                'entrega_responsavel'=>$entrega_responsavel,
+                'entrega_anotacao'=>$entrega_anotacao
+
+            ]);
+            return $pdf->setPaper('a4')->stream('ordem_' . $pedido_numero . '.pdf');
+        } else {
+            return view('admin.output.relatorio',[
+                'data_pedido'=>$data_pedido,
+                'data_separacao'=>$data_separacao,
+                'cliente'=>$cliente,
+                'pedido_numero'=>$pedido_numero,
+                'pedidos'=>$pedidos
+
+            ]);
+        }
+
+
+    }
+
 
     /**
      * Remove the specified resource from storage.

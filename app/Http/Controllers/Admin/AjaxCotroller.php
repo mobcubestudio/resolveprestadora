@@ -69,7 +69,13 @@ class AjaxCotroller extends Controller
      */
     public function carregaEpis(Request $request)
     {
-
          return response()->json($funcionario->epis);
+    }
+
+
+    public function verificaEmailDigitado(Request $request)
+    {
+        $conta_funcionarios = count(Employee::where('email','=',$request->post('email'))->get());
+        return response()->json($conta_funcionarios);
     }
 }

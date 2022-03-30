@@ -12,6 +12,7 @@
     <title>Resolve - Gestão</title>
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <link rel="stylesheet" href="{{asset('css/cropper.css')}}">
+    <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
     @toastr_css
     @yield('head')
     <meta name="csrf-token" content="{{csrf_token()}}" />

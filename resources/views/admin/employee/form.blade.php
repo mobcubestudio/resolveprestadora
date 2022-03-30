@@ -117,6 +117,7 @@
                 <div class="mb-3">
                     <label for="amount_alert" class="form-label">E-mail*</label>
                     <input type="email" required name="email" class="form-control" id="email" aria-describedby="emailHelp" value="{{$email}}">
+                    <div id="alerta-email" class="alert-danger d-none p-1 mt-1 ps-3">Esse e-mail já está cadastrado.</div>
                 </div>
 
                 <div class="mb-3">
@@ -147,7 +148,7 @@
                 </div>
 
 
-                <button type="Salvar" class="btn btn-primary" style="font-size: 1.5em">
+                <button type="Salvar" id="salvar" class="btn btn-primary" style="font-size: 1.5em">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-save" viewBox="0 0 16 16">
                         <path d="M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1v7.293l2.646-2.647a.5.5 0 0 1 .708.708l-3.5 3.5a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L7.5 9.293V2a2 2 0 0 1 2-2H14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1H2z"/>
                     </svg>
@@ -195,6 +196,30 @@
 @section('footer_js')
     <script src="{{ asset('js/jquery.mask.min.js')}}"></script>
     <script src="{{ asset('js/cropper.js') }}"></script>
+    <script>
+        $(document).on('keyup','#email',function (e){
+            let _token   = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                url: "{{route('admin.ajax.funcionario.email.verifica')}}",
+                cache: false,
+                type: 'POST',
+                data: {
+                    email:$(this).val(),
+                    _token: _token
+                },
+                success: function (data) {
+                    if(data==0){
+                        $("#alerta-email").addClass('d-none');
+                        $("#salvar").prop('disabled',false);
+                    } else {
+                        $("#alerta-email").removeClass('d-none');
+                        $("#salvar").prop('disabled',true);
+                    }
+                    //console.log(data);
+                }
+            });
+        });
+    </script>
     <script>
 
         var bs_modal = $('#modal');

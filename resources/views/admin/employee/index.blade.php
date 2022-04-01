@@ -77,6 +77,8 @@
         </tbody>
     </table>
 
+    <!-- PAGINACAO -->
+    {{$employees->links('layouts.pagination')}}
 
 
 

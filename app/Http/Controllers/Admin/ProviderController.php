@@ -26,7 +26,7 @@ class ProviderController extends Controller
     {
 
         return view("admin.$this->view_name.index",[
-            'datas' => Provider::all()
+            'datas' => Provider::orderBy('name','asc')->paginate(15)
         ]);
     }
 

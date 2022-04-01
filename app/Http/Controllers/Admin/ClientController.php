@@ -28,7 +28,7 @@ class ClientController extends Controller
     {
 
         return view("admin.$this->view_name.index",[
-            'datas' => Client::paginate(15)
+            'datas' => Client::orderBy('name','asc')->paginate(15)
         ]);
     }
 

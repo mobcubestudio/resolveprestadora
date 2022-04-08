@@ -193,6 +193,9 @@
         $(function(){
 
             $("#product_id").select2();
+            $("#client_id").select2();
+
+
 
             var lines = 0;
 
@@ -243,8 +246,10 @@
                 if(valor==1){
                     $("#epi_employee_id").attr('required',true);
                     $("#bloco-epi_employee_id").removeClass('d-none');
+                    $("#epi_employee_id").select2();
                 } else {
                     $("#epi_employee_id").attr('required',false);
+                    $("#epi_employee_id").val("");
                     $("#bloco-epi_employee_id").addClass('d-none');
                 }
 

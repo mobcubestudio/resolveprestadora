@@ -141,9 +141,12 @@ class Tools
             $submenus = SubmenuPermission::where('user_id',$user_id)->where('menu_id',$menu->menu_id)->get();
             echo '<ul class="dropdown-menu" aria-labelledby="navbarDropdown">';
             foreach ($submenus as $submenu){
+                $target = ($submenu->submenu_id == 10) ? ' target="_blank" ' : '';
+
                 if($submenu_index[$submenu->submenu_id]['divisor']=='S')
                     echo '<li><hr class="dropdown-divider"></li>';
-                echo '<li><a class="dropdown-item" href="' . asset(  'admin/' . $menu_index[$menu->menu_id]['url'] . '/' . $submenu_index[$submenu->submenu_id]['url'] ). '">' . $submenu_index[$submenu->submenu_id]['nome'] . '</a></li>';
+
+                echo '<li><a class="dropdown-item" ' . $target . '  href="' . asset(  'admin/' . $menu_index[$menu->menu_id]['url'] . '/' . $submenu_index[$submenu->submenu_id]['url'] ). '">' . $submenu_index[$submenu->submenu_id]['nome'] . '</a></li>';
             }
 
             echo '</ul>';

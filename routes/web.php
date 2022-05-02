@@ -71,6 +71,7 @@ Route::namespace('Site')->group(function (){
         Route::post('/admin/produtos/update','\App\Http\Controllers\Admin\ProductController@update')->name('admin.products.action.update');
         Route::get('/admin/produtos/recycle/{product}','\App\Http\Controllers\Admin\ProductController@recycle')->name('admin.products.recycle');
         Route::get('/admin/produtos/destroy/{product}','\App\Http\Controllers\Admin\ProductController@destroy')->name('admin.products.destroy');
+        Route::get('/admin/produtos/relatorio','\App\Http\Controllers\Admin\ProductController@relatorioGeral')->name('admin.products.relatorio');
 
         //FUNCIONARIOS
         Route::get('/admin/funcionarios/listar','\App\Http\Controllers\Admin\EmployeeController@index')->name('admin.employees');

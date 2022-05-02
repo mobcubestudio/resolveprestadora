@@ -76,6 +76,31 @@ class ProductController extends Controller
 
 
     }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function relatorioGeral(Request $request)
+    {
+        $o=1;
+
+            $produtos = Product::all()->sortByDesc('amount');
+
+            //dd($saida);
+            if($o==1) {
+                $pdf = PDF::loadView('admin.product.relatorio-geral',[
+                    'produtos'=>$produtos
+                ]);
+                return $pdf->setPaper('a4')->stream('relatorio-geral-' . date('dmY') . '.pdf');
+            } else {
+                return view('admin.product.relatorio',[
+                    'produtos'=>$produtos
+                ]);
+            }
+
+
+    }
 
     /**
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View

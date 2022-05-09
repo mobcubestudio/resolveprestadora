@@ -192,6 +192,24 @@
     <script>
         $(function(){
 
+            function retornaEstoque(id_produto){
+                var retorno;
+                $.ajax({
+                    url: "{{route('admin.ajax.produto.estoque.verifica')}}",
+                    cache: false,
+                    type: 'POST',
+                    async: false,
+                    data: {
+                        id_produto:id_produto,
+                        _token: $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function (em_estoque) {
+                        retorno = em_estoque;
+                    }
+                });
+                return retorno;
+            }
+
             $("#product_id").select2();
             $("#client_id").select2();
 
@@ -210,6 +228,15 @@
                 if(qtd==""){
                     if(erro!="") erro += "\n";
                     erro += "Informe a quantidade."
+                } else {
+                    //VERIFICA SE A QUANTIDADE INFORMADA NÃO IRÁ EXCEDER O ESTOQUE
+                    var em_estoque = retornaEstoque(pdt);
+
+                    //console.log(em_estoque - qtd);
+                    if((em_estoque - qtd) < 0){
+                        erro += "Produto sem estoque para a quantidade informada."
+                    }
+
                 }
                 if(erro!=""){
                     alert(erro);
@@ -223,7 +250,7 @@
                     body.append(row);
                     //$("#list-products").append('</tr>');
                     //alert("Produto: "+pdt+"--- Qtd: "+qtd);
-                    $("#product_id").val("");
+                    $("#product_id").val('').trigger('change')
                     $("#amount").val("");
                 }
 

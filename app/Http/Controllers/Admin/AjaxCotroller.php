@@ -78,4 +78,11 @@ class AjaxCotroller extends Controller
         $conta_funcionarios = count(Employee::where('email','=',$request->post('email'))->get());
         return response()->json($conta_funcionarios);
     }
+
+
+    public function verificaEstoqueProduto(Request $request)
+    {
+        $produto = Product::find($request->post('id_produto'));
+        return response()->json(($produto->amount + 0));
+    }
 }

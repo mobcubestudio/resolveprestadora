@@ -60,6 +60,7 @@ Route::namespace('Site')->group(function (){
         Route::post('ajax/separar_produtos_submit',['as'=>'admin.ajax.separar_produtos.submit', 'uses'=>'\App\Http\Controllers\Admin\AjaxCotroller@separarProdutosSubmit']);
         Route::post('ajax/funcionarioEpis',['as'=>'admin.ajax.funcionario.epis', 'uses'=>'\App\Http\Controllers\Admin\AjaxCotroller@carregaEpis']);
         Route::post('ajax/verificaEmailDigitado',['as'=>'admin.ajax.funcionario.email.verifica', 'uses'=>'\App\Http\Controllers\Admin\AjaxCotroller@verificaEmailDigitado']);
+        Route::post('ajax/verificaEstoqueProduto',['as'=>'admin.ajax.produto.estoque.verifica', 'uses'=>'\App\Http\Controllers\Admin\AjaxCotroller@verificaEstoqueProduto']);
 
         //PRODUTOS
         Route::get('/admin/produtos/listar','\App\Http\Controllers\Admin\ProductController@index')->name('admin.products');

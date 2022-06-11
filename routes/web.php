@@ -20,6 +20,7 @@ Route::namespace('Site')->group(function (){
 
     Route::get('/admin/login','\App\Http\Controllers\Admin\AuthController@loginForm')->name('admin.login');
     Route::post('/admin/login/do','\App\Http\Controllers\Admin\AuthController@login')->name('admin.login.do');
+    Route::post('/admin/recuperar-senha/do','\App\Http\Controllers\Admin\AuthController@recuperarSenha')->name('admin.login.recuperarSenha.do');
     Route::get('/admin/logout','\App\Http\Controllers\Admin\AuthController@logout')->name('admin.logout');
 
     Route::group(['middleware'=>['auth']], function (){

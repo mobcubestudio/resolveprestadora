@@ -5,6 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{csrf_token()}}" />
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <title>Resolve - Login</title>
     <style>
@@ -293,13 +294,90 @@
 
             <!-- Remind Passowrd -->
             <div id="formFooter">
-                <a class="underlineHover" href="#">Esqueceu a senha?</a>
+                <a class="underlineHover" data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="javascript:void(0);">Esqueceu a senha?</a>
             </div>
 
         </div>
     </div>
+
+
+
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Esqueci minha senha</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col">
+                            Informe sua <b>Matrícula</b> e seu <b>CPF</b> nos campos abaixo.<br />
+                            Sua senha nova será <b>123456</b>.<br />
+                            Ao acessar o sistema novamente, infome a nova senha através do menu <b>"Meus Dados > Alterar Senha"</b>.
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" class="form-control w-100" id="rs-matricula" placeholder="Matrícula" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" class="form-control w-100" data-mask="000.000.000-00" id="rs-cpf" placeholder="CPF" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" id="rs-redefinir" class="btn btn-primary">Redefinir Senha</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!--link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"-->
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="{{ asset('js/jquery.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.js') }}"></script>
+    <script src="{{ asset('js/jquery.mask.min.js')}}"></script>
+    <script>
+        $(document).ready(function () {
+            $("#rs-redefinir").on('click',function () {
+                var rs_matricula = $("#rs-matricula").val();
+                var rs_cpf = $("#rs-cpf").val();
+
+                if(rs_matricula == '' || rs_cpf == ''){
+                    alert('Ambos os campos são obrigatórios');
+                } else {
+                    let _token   = $('meta[name="csrf-token"]').attr('content');
+                    $.ajax({
+                        url: "{{route('admin.login.recuperarSenha.do')}}",
+                        cache: false,
+                        type: 'POST',
+                        data: {
+                            matricula:rs_matricula,
+                            cpf: rs_cpf,
+                            _token: _token
+                        },
+                        success: function (data) {
+                            if(data=='sucesso'){
+                                alert('Sua senha foi redefinida com sucesso.');
+                                $("#staticBackdrop").modal('hide');
+                            } else {
+                                alert('Erro ao tentar encontrar o usuário.');
+                            }
+
+                        }
+                    });
+                }
+
+            })
+        })
+    </script>
 </body>
 </html>
+

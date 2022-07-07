@@ -20,7 +20,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        var_dump($request->all());
+        //var_dump($request->all());
         $credentials =[
             'matricula'=>$request->matricula,
             'password'=>$request->password

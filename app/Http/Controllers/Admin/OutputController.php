@@ -196,6 +196,15 @@ class OutputController extends Controller
                 $output->sent_date_time = date_create();
                 $output->status = 'R';
                 $output->save();
+
+                //RETIRANDO PRODUTOS DO ESTOQUE
+                foreach($output->productOutput as $pdtOut){
+                    $pdt = $pdtOut->product;
+                    $qtd_atual = ($pdt->amount + 0);
+                    $pdt->amount = ($qtd_atual - $pdtOut->amount) + 0;
+                    $pdt->save();
+                }
+
                 toastr()->success('Pendido enviado para rota de entrega.');
                 return redirect()->route('admin.outputs.separated');
             break;
@@ -207,15 +216,6 @@ class OutputController extends Controller
                 $output->received_date_time = date_create();
                 $output->status = 'E';
                 $output->save();
-
-                //RETIRANDO PRODUTOS DO ESTOQUE
-                foreach($output->productOutput as $pdtOut){
-                    $pdt = $pdtOut->product;
-                    $qtd_atual = ($pdt->amount + 0);
-                    $pdt->amount = ($qtd_atual - $pdtOut->amount) + 0;
-                    $pdt->save();
-                }
-
 
                 toastr()->success(' Pedido separado com sucesso.');
                 return redirect()->route('admin.outputs.route');

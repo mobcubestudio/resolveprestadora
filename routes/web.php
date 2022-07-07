@@ -137,4 +137,7 @@ Route::namespace('Site')->group(function (){
 
         //Route::get('/admin/compras/recycle/{id}','\App\Http\Controllers\Admin\PurchaseController@recycle')->name('admin.purchases.recycle');
         //Route::get('/admin/compras/destroy/{data}','\App\Http\Controllers\Admin\PurchaseController@destroy')->name('admin.purchases.destroy');
+
+        // API
+        //Route::apiResource('condominios','')
 });

@@ -17,3 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::post('auth/login', '\App\Http\Controllers\Api\AuthController@login');
+
+Route::group(['middleware'=>'apiJwt'],function (){
+    Route::apiResource('condominios','\App\Http\Controllers\Api\CondominioController');
+});
+
